@@ -1,0 +1,39 @@
+/** See the end of this file for copyright and license terms. */
+
+#pragma once
+
+#define NEO_VERSION_MAJOR @neo_VERSION_MAJOR@
+#define NEO_VERSION_MINOR @neo_VERSION_MINOR@
+#define NEO_VERSION_PATCH @neo_VERSION_PATCH@
+#define NEO_VERSION_STRING "@neo_VERSION@@neo_VERSION_SUFFIX@"
+
+#if NEO_VERSION_MAJOR > 255
+#	error "major version number too high"
+#endif
+#if NEO_VERSION_MINOR > 255
+#	error "minor version number too high"
+#endif
+#if NEO_VERSION_PATCH > 65535
+#	error "patch version number too high"
+#endif
+
+#define NEO_VERSION ( \
+	(NEO_VERSION_MAJOR << 24) \
+	| (NEO_VERSION_MINOR << 16) \
+	| NEO_VERSION_PATCH \
+)
+
+#cmakedefine DEBUG
+
+/*
+ * This file is part of libneo.
+ * Copyright (c) 2021 Fefie <owo@fef.moe>.
+ *
+ * libneo is non-violent software: you may only use, redistribute,
+ * and/or modify it under the terms of the CNPLv6+ as found in
+ * the LICENSE file in the source code root directory or at
+ * <https://git.pixie.town/thufie/CNPL>.
+ *
+ * libneo comes with ABSOLUTELY NO WARRANTY, to the extent
+ * permitted by applicable law.  See the CNPLv6+ for details.
+ */

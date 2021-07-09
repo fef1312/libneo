@@ -25,7 +25,8 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
         endif()
     endif()
 
-    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         OUTPUT_VARIABLE neo_GIT_REVISION
         ERROR_QUIET
@@ -35,6 +36,8 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
         set(neo_VERSION_SUFFIX "-${neo_GIT_REVISION}")
     endif()
 endif()
+
+include(./contrib/jemalloc.cmake)
 
 add_subdirectory(src)
 

@@ -1,7 +1,7 @@
 # See the end of this file for copyright and license terms.
 
 cmake_minimum_required(VERSION 3.0.0)
-project(neo VERSION 0.1.0 LANGUAGES C)
+project(neo VERSION 0.1.0 LANGUAGES C ASM)
 set(CMAKE_C_STANDARD 11)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

@@ -1,13 +1,14 @@
 /** See the end of this file for copyright and license terms. */
 
-#include "neo.h"
-#include "neo/_unistd.h"
+#pragma once
 
-int main(int argc, char **argv)
-{
-	_neo_sys_write(1, "hello, world\n", 14);
-	return 69;
-}
+#include "neo.h"
+
+long _neo_syscall(long number, ...);
+
+isize _neo_sys_write(int fd, const void *buf, usize count);
+__attribute__((__noreturn__))
+void _neo_sys_exit(int status);
 
 /*
  * This file is part of libneo.

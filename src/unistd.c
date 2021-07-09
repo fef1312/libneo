@@ -3,10 +3,17 @@
 #include "neo.h"
 #include "neo/_unistd.h"
 
-int main(int argc, char **argv)
+/* TODO: get rid of hardcoded syscall numbers */
+
+isize _neo_sys_write(int fd, const void *buf, usize len)
 {
-	_neo_sys_write(1, "hello, world\n", 14);
-	return 69;
+	return _neo_syscall(1, fd, buf, len);
+}
+
+void _neo_sys_exit(int status)
+{
+	_neo_syscall(60, status);
+	while (1); /* should not be reached */
 }
 
 /*

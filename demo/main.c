@@ -1,11 +1,9 @@
 /** See the end of this file for copyright and license terms. */
 
 #include "neo.h"
-#include "neo/_unistd.h"
 
 int main(int argc, char **argv)
 {
-	_neo_sys_write(1, "hello, world\n", 14);
 	return 69;
 }
 

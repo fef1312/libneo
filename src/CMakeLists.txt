@@ -1,11 +1,17 @@
 # See the end of this file for copyright and license terms.
 
-add_library(neo)
+add_library(neo STATIC)
 
-add_compile_options(-nostdlib -nodefaultlibs)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib")
+add_compile_options(-nodefaultlibs)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
-target_link_libraries(neo PRIVATE jemalloc)
+execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
+string(TOLOWER "${HOST_ARCH}" HOST_ARCH)
+execute_process(COMMAND uname OUTPUT_VARIABLE HOST_OS OUTPUT_STRIP_TRAILING_WHITESPACE)
+string(TOLOWER "${HOST_OS}" HOST_OS)
+
+set(TARGET_ARCH "${HOST_ARCH}" CACHE STRING "Target architecture")
+set(TARGET_OS "${HOST_OS}" CACHE STRING "Target operating system")
 
 configure_file(
     ./include/neo/buildconfig.h.in

@@ -2,9 +2,6 @@
 
 add_executable(demo)
 
-add_compile_options(-nostdlib -nodefaultlibs)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib")
-
 target_link_libraries(demo PRIVATE neo)
 
 target_sources(demo PRIVATE

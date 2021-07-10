@@ -25,7 +25,7 @@ target_include_directories(neo PRIVATE
 )
 
 target_sources(neo PRIVATE
-    ./entry.c
+    ./nref.c
 )
 
 # This file is part of libneo.

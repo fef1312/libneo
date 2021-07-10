@@ -6,7 +6,34 @@
 
 #define nil ((void *)0)
 
+#ifndef true
+#define true ((bool)1)
+#endif
+#ifndef false
+#define false ((bool)0)
+#endif
+
+#ifndef offsetof
 #define offsetof(type, member) __builtin_offsetof(type, member)
+#endif
+
+/**
+ * Declare a length field in a structure.
+ * This makes it compatible with the `nlen` macro.
+ *
+ * @param name: field name, will be of type `usize`
+ */
+#define NLEN_FIELD(name)		\
+	union {				\
+		usize name;		\
+		const usize __neo_nlen;	\
+	}
+
+/**
+ * Quickly get the length (as a `const usize`) of any libneo data structure
+ * that supports it.  This includes strings, buffers, lists, and more.
+ */
+#define nlen(thing) ((thing)->__neo_nlen)
 
 /*
  * This file is part of libneo.

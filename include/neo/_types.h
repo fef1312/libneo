@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "neo/_stddef.h"
+
 typedef __INT8_TYPE__		i8;
 typedef __INT16_TYPE__		i16;
 typedef __INT32_TYPE__		i32;
@@ -22,16 +24,34 @@ typedef long double	f128;
 
 typedef _Bool bool;
 
+#define atomic _Atomic
+#define complex _Complex
+
+struct _neo_nref {
+	void (*_destroy)(void *);
+	/** byte offset into the struct this is embedded in */
+	usize _offset;
+	atomic int _count;
+};
+/**
+ * A basic reference counter for data structures.
+ * Embed this into your data structure as the field `__neo_nref` and
+ */
+typedef struct _neo_nref nref_t;
+#define NREF_FIELD nref_t __neo_nref
+
 struct _neo_string {
-	usize _len;
+	NLEN_FIELD(_len);
+	NREF_FIELD;
 	usize _capacity;
 	char *_data;
 };
 typedef struct _neo_string string;
 
 struct _neo_error {
-	int _number;
-	string *_error;
+	string *_message;
+	u32 _number;
+	u32 _flags; /* see src/error.c */
 };
 typedef struct _neo_error *error;
 

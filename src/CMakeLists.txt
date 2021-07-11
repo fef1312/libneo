@@ -26,6 +26,7 @@ target_include_directories(neo PRIVATE
 
 target_sources(neo PRIVATE
     ./error.c
+    ./nalloc.c
     ./nref.c
 )
 

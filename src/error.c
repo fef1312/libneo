@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "neo/_error.h"
+#include "neo/_nalloc.h"
 #include "neo/_nref.h"
 #include "neo/_stddef.h"
 #include "neo/_string.h"
+#include "neo/_toolchain.h"
 #include "neo/_types.h"
-#include "neo/toolchain.h"
 
 /* flags for the error structure */
 #define NEO_ERR_CAUGHT		(1 << 0)

@@ -2,6 +2,14 @@
 
 #pragma once
 
+#ifdef __clang__ /* clang doesn't support specifying a deallocator qwq */
+#define __neo_malloc(deallocator, argindex) \
+	__attribute__(( __malloc__ ))
+#else
+#define __neo_malloc(deallocator, argindex) \
+	__attribute__(( __malloc__, __malloc__(deallocator, argindex) ))
+#endif
+
 #define __neo_section(name) __attribute__(( __section__(#name) ))
 
 #define __neo_init(fn) \

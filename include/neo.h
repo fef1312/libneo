@@ -9,6 +9,7 @@
 #include "neo/_error.h"
 #include "neo/_types.h"
 #include "neo/_stddef.h"
+#include "neo/_nalloc.h"
 
 /*
  * This file is part of libneo.

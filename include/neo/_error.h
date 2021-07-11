@@ -19,7 +19,7 @@ void yeet(error *err, int number, const char *restrict fmt, ...);
 /**
  * Functions accepting an error pointer must call this to indicate success.
  */
-#define succeed(errptr) ({		\
+#define neat(errptr) ({			\
 	if (errptr)			\
 		*(errptr) = nil;	\
 })

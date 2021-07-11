@@ -2,13 +2,13 @@
 
 #pragma once
 
-#if !defined(__GNUC__) && !defined(__clang__)
-#error "Only gcc and clang are supported"
-#endif
+#define __neo_section(name) __attribute__(( __section__(#name) ))
 
-#include "neo/_error.h"
-#include "neo/_types.h"
-#include "neo/_stddef.h"
+#define __neo_init(fn) \
+	__neo_section(.init_array) static void (*__neo_init_##fn)(void) = fn
+
+#define __neo_fini(fn) \
+	__neo_section(.fini_array) static void (*__neo_fini_##fn)(void) = fn
 
 /*
  * This file is part of libneo.

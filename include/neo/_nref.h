@@ -5,10 +5,10 @@
 #include "neo/_types.h"
 
 #define nref_init(ptr, destroy) ({						\
-	(ptr)->__neo_nref._offset = offsetof(typeof(ptr), __neo_nref);		\
-	void (*__destroy_typechecked)(typeof ptr) = destroy;			\
+	(ptr)->__neo_nref._offset = offsetof(typeof(*(ptr)), __neo_nref);	\
+	void (*__destroy_typechecked)(typeof(ptr)) = destroy;			\
 	(ptr)->__neo_nref._destroy = (void (*)(void *))__destroy_typechecked;	\
-	(ptr)->__neo_nref._count = 1						\
+	(ptr)->__neo_nref._count = 1;						\
 })
 
 int _neo_nget(struct _neo_nref *ref);

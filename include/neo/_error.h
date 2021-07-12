@@ -6,6 +6,9 @@
 
 /**
  * Throw an error.  If `err` is `nil`, the program halts.
+ * Functions accepting an `err` object must call either `yeet` or `neat`
+ * on the object exactly once, or the behavior is undefined.
+ * If a function yeets an error, its return value is undefined.
  *
  * @param err: The error pointer passed to the callee
  * @param number: An error number appropriate for the condition,
@@ -14,24 +17,47 @@
  *	the values to insert which will become the error message.
  */
 __attribute__(( __format__(printf, 3, 4) ))
-void yeet(error *err, int number, const char *restrict fmt, ...);
+void yeet(error *err, u32 number, const char *restrict fmt, ...);
 
 /**
- * Functions accepting an error pointer must call this to indicate success.
+ * Indicate an operation has completed successfully.
+ * Functions accepting an `error` pointer must call either `yeet` or `neat`,
+ * or the begavior is undefined.
+ *
+ * @param err: Error object
  */
-#define neat(errptr) ({			\
-	if (errptr)			\
-		*(errptr) = nil;	\
-})
+void neat(error *err);
 
 /**
- * Functions passing an error pointer must call this to acknowledge an error.
+ * Release any resources allocated for an error.
+ * This must always be called within the catch block of the outermost calling
+ * function, i.e. the one that declared the error variable (not the ones just
+ * accepting an error * argument and passing it through to further calls).
+ *
+ * Put another way, you probably need to call this if you had to put an `&`
+ * before the error variable for passing it into `catch`.
+ *
+ * @param err: Error object to destroy
  */
-void catch(error *err);
+void errput(error *err);
 
-/** Get the error number */
+/**
+ * Execute the expression after this macro call if the error pointed to
+ * by `err` is an actual error, i.e. it has been `yeet`ed to.
+ * Resources for the error must be released using `nput`.
+ */
+#define catch(err) if ((err) != nil && (err)->_number != 0)
+
+/**
+ * Get the error number.
+ * Must only be used within a catch block and before `errput` is called.
+ */
 #define errnum(err) ((err)->_number)
-/** Get an optional error message, this may be `nil` */
+
+/**
+ * Get an optional error message, this may be `nil`
+ * Must only be used within a catch block and before `errput` is called.
+ */
 #define errmsg(err) ((err)->_message)
 
 /*

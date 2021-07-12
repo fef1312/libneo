@@ -53,7 +53,7 @@ struct _neo_error {
 	u32 _number;
 	u32 _flags; /* see src/error.c */
 };
-typedef struct _neo_error *error;
+typedef struct _neo_error error;
 
 /*
  * This file is part of libneo.

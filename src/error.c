@@ -11,37 +11,26 @@
 #include "neo/_nref.h"
 #include "neo/_stddef.h"
 #include "neo/_string.h"
-#include "neo/_toolchain.h"
 #include "neo/_types.h"
 
-/* flags for the error structure */
-#define NEO_ERR_CAUGHT		(1 << 0)
-
-/* TODO: we need one of these for every thread */
-static struct _neo_error _neo_error_instance = {
-	._number = 0,
-	._message = nil,
-	._flags = NEO_ERR_CAUGHT,
-};
-
-void yeet(error *err, int number, const char *restrict fmt, ...)
+void yeet(error *err, u32 number, const char *restrict fmt, ...)
 {
 	va_list vargs;
 	usize msg_capacity = 64;
 	char *msg = nil;
-	int printf_ret;
+	int vsnprintf_ret;
 
 	if (fmt != nil) {
 		do {
 			msg = nalloc(msg_capacity, nil);
 			va_start(vargs, fmt);
-			printf_ret = vsnprintf(msg, msg_capacity, fmt, vargs);
+			vsnprintf_ret = vsnprintf(msg, msg_capacity, fmt, vargs);
 			va_end(vargs);
-			if (printf_ret > 0) {
-				msg_capacity += printf_ret;
+			if (vsnprintf_ret > 0) {
+				msg_capacity += vsnprintf_ret;
 				nfree(msg);
 				msg = nil;
-			} else if (printf_ret < 0) {
+			} else if (vsnprintf_ret < 0) {
 				write(1, "Runtime error\n", 14);
 				exit(1);
 			}
@@ -55,18 +44,25 @@ void yeet(error *err, int number, const char *restrict fmt, ...)
 		exit(number);
 	}
 
-	*err = &_neo_error_instance;
-	(*err)->_number = number;
-	(*err)->_message = nstr(msg, nil);
-	(*err)->_flags &= ~NEO_ERR_CAUGHT;
+	err->_number = number;
+	err->_message = nstr(msg, nil);
 }
 
-void catch(error *err)
+void neat(error *err)
 {
-	if ((*err)->_message)
-		nput((*err)->_message);
-	(*err)->_flags |= NEO_ERR_CAUGHT;
-	*err = nil;
+	if (err) {
+		err->_number = 0;
+		err->_message = nil;
+	}
+}
+
+void errput(error *err)
+{
+	if (err != nil) {
+		if (err->_message != nil)
+			nput(err->_message);
+		err->_number = 0xffffffff;
+	}
 }
 
 /*

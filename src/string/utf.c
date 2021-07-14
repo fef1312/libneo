@@ -129,7 +129,7 @@ usize utf8_to_nchr(nchar *dest, const char *restrict utf8chr, error *err)
 	/* Payload bitmask for first byte in the sequence per sequence length */
 	static const char         cmasks[] = {       0x00, 0x7f, 0x1f,  0x0f,    0x07 };
 	/* Minimum Unicode values per sequence length */
-	static const nchar        mins[]   = { 0xffffffff,    0, 0x80, 0x800, 0x10000 };
+	static const nchar        mins[]   = { 0xffffffff, 0x00, 0x80, 0x800, 0x10000 };
 	/* Error bitmasks for (unused) bytes 2-4 per sequence length */
 	static const uint_fast8_t emasks[] = {       0x00, 0x03, 0x07,  0x3f,    0xff };
 
@@ -196,7 +196,7 @@ usize utf8_to_nchr(nchar *dest, const char *restrict utf8chr, error *err)
 		*dest = '\0';
 		if ((eflags & 0x01) != 0) {
 			yeet(err, EINVAL,
-			     "Non canonical UTF-8 encoding: %lu byte character stored in %u bytes",
+			     "Non canonical UTF-8 encoding: %zu byte character stored in %u bytes",
 			     utf8_nchr_size(c, nil), len);
 		} else if ((eflags & 0x02) != 0) {
 			yeet(err, EINVAL, "Illegal UTF-8 sequence start byte: 0x%02x", utf8chr[0]);

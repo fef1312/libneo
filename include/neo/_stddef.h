@@ -21,6 +21,13 @@ extern "C" {
 #	define offsetof(type, member) __builtin_offsetof(type, member)
 #endif
 
+/** Get the absolute (non negative) value of an integer */
+#define nabs(n) ({								\
+	/* n is an expression, not a variable, evaluate it only once */		\
+	typeof(n) __neo_local_n = (n);						\
+	__neo_local_n < 0 ? -__neo_local_n : __neo_local_n;			\
+})
+
 /**
  * Declare a length field in a structure.
  * This makes it compatible with the `nlen` macro.

@@ -1,24 +1,37 @@
 /** See the end of this file for copyright and license terms. */
 
-#pragma once
-
-#if !defined(__GNUC__) && !defined(__clang__)
-#error "Only gcc and clang are supported"
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <errno.h>
+#include <string.h>
 
 #include "neo/_error.h"
-#include "neo/_types.h"
+#include "neo/_nref.h"
 #include "neo/_stddef.h"
 #include "neo/_string.h"
-#include "neo/_nalloc.h"
+#include "neo/_types.h"
 
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
+int nstrcmp(const string *s1, const string *s2, error *err)
+{
+	if (s1 == nil) {
+		yeet(err, EFAULT, "First string is nil");
+		return 0;
+	}
+	if (s2 == nil) {
+		yeet(err, EFAULT, "Second string is nil");
+		return 0;
+	}
+
+	int ret;
+
+	if (nlen(s1) > nlen(s2))
+		ret = 1;
+	else if (nlen(s1) < nlen(s2))
+		ret = -1;
+	else
+		ret = strcmp(s1->_data, s2->_data);
+
+	neat(err);
+	return ret;
+}
 
 /*
  * This file is part of libneo.

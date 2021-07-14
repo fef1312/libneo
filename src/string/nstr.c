@@ -58,14 +58,12 @@ string *nstr(const char *restrict s, error *err)
 	return str;
 }
 
-nchar nchrat(string *s, usize index, error *err)
+nchar nchrat(const string *s, usize index, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
 		return '\0';
 	}
-
-	nget(s);
 
 	if (index >= s->_len) {
 		yeet(err, ERANGE, "String index out of bounds");
@@ -79,8 +77,6 @@ nchar nchrat(string *s, usize index, error *err)
 
 	nchar ret;
 	utf8_to_nchr(&ret, ptr, err);
-
-	nput(s);
 
 	return ret;
 }

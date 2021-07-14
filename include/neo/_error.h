@@ -66,7 +66,7 @@ void errput(error *err);
  * Get an optional error message, this may be `nil`
  * Must only be used within a catch block and before `errput` is called.
  */
-#define errmsg(err) ((err) == nil ? nil : (err)->_message)
+#define errmsg(err) ((err) == nil ? (string *)nil : (err)->_message)
 
 #ifdef __cplusplus
 }; /* extern "C" */

@@ -127,11 +127,11 @@ usize utf8_to_nchr(nchar *dest, const char *restrict _utf8chr, error *err)
 		0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 4, 0,
 	};
 	/* Payload bitmask for first byte in the sequence per sequence length */
-	static const char         cmasks[] = {       0x00, 0x7f, 0x1f,  0x0f,    0x07 };
+	static const char         cmasks[] = { 0x00, 0x7f, 0x1f,  0x0f,    0x07 };
 	/* Minimum Unicode values per sequence length */
-	static const nchar        mins[]   = { 0xffffffff, 0x00, 0x80, 0x800, 0x10000 };
+	static const nchar        mins[]   = { 0x00, 0x00, 0x80, 0x800, 0x10000 };
 	/* Error bitmasks for (unused) bytes 2-4 per sequence length */
-	static const uint_fast8_t emasks[] = {       0x00, 0x03, 0x07,  0x3f,    0xff };
+	static const uint_fast8_t emasks[] = { 0x03, 0x03, 0x07,  0x3f,    0xff };
 
 	/* signed bitshifts are a bad idea, trust me */
 	const u8 *restrict utf8chr = (const u8 *restrict)_utf8chr;
@@ -156,7 +156,7 @@ usize utf8_to_nchr(nchar *dest, const char *restrict _utf8chr, error *err)
 	case 4:
 		c = (nchar)(utf8chr[3] & 0x3f);			/* 10xx xxxx */
 		cshift += 6;
-		eflags |= utf8chr[3];
+		eflags |= utf8chr[3] & 0xc0;
 		/* fall through */
 	case 3:
 		c |= (nchar)(utf8chr[2] & 0x3f) << cshift;	/* 10xx xxxx */
@@ -177,7 +177,7 @@ usize utf8_to_nchr(nchar *dest, const char *restrict _utf8chr, error *err)
 	}
 
 	/* UTF-8 mandates each char be stored in as few bytes as possible */
-	eflags = c < mins[len];
+	eflags |= c < mins[len];
 
 	/*
 	 * Bytes 7-2 in eflags store the respective 2 MSBs of each tail byte

@@ -74,7 +74,7 @@ usize utf8_nchr_size(nchar c, error *err)
 
 usize utf8_from_nchr(char *restrict dest, nchar c, error *err)
 {
-	static const char prefixes[] = { 0x00, 0x00, 0xc0, 0xe0, 0xf0 };
+	static const u8 prefixes[] = { 0x00, 0x00, 0xc0, 0xe0, 0xf0 };
 
 	usize utf8_size = utf8_nchr_size(c, err);
 	catch(err) {
@@ -119,7 +119,7 @@ usize utf8_from_nchr(char *restrict dest, nchar c, error *err)
  *       worth the considerable speed gain from this design.
  */
 
-usize utf8_to_nchr(nchar *dest, const char *restrict utf8chr, error *err)
+usize utf8_to_nchr(nchar *dest, const char *restrict _utf8chr, error *err)
 {
 	/* Expected sequence length per the 5 MSBs of the start byte */
 	static const uint_fast8_t lengths[] = {
@@ -133,12 +133,15 @@ usize utf8_to_nchr(nchar *dest, const char *restrict utf8chr, error *err)
 	/* Error bitmasks for (unused) bytes 2-4 per sequence length */
 	static const uint_fast8_t emasks[] = {       0x00, 0x03, 0x07,  0x3f,    0xff };
 
+	/* signed bitshifts are a bad idea, trust me */
+	const u8 *restrict utf8chr = (const u8 *restrict)_utf8chr;
+
 	uint_fast8_t cshift = 0;
 	/*
 	 * 0xff bitmask just in case we are on a really odd
 	 * architecture where char is more than one byte
 	 */
-	uint_fast8_t len = lengths[(utf8chr[0] >> 3) & 0xff];
+	uint_fast8_t len = lengths[utf8chr[0] >> 3];
 	/*
 	 * 7-6: two MSBs of the fourth byte in the sequence, must be 0b10
 	 * 5-4: two MSBs of the third byte in the sequence, must be 0b10

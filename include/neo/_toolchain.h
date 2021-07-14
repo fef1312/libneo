@@ -18,6 +18,12 @@
 #define __neo_fini(fn) \
 	__neo_section(.fini_array) static void (*__neo_fini_##fn)(void) = fn
 
+#ifdef __cplusplus
+#	define __restrict
+#else
+#	define __restrict restrict
+#endif
+
 /*
  * This file is part of libneo.
  * Copyright (c) 2021 Fefie <owo@fef.moe>.

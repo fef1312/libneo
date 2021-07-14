@@ -16,6 +16,11 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "neo/_toolchain.h"
 #include "neo/_types.h"
 
 /**
@@ -28,7 +33,7 @@
  * @returns The number of UTF-8 code points (i.e. number of Unicode characters)
  *	excluding the terminating NUL byte; undefined on error
  */
-usize utf8_check(const char *restrict s, error *err);
+usize utf8_check(const char *__restrict s, error *err);
 
 /**
  * Compute the length of a raw UTF-8 encoded, NUL terminated string.
@@ -40,7 +45,7 @@ usize utf8_check(const char *restrict s, error *err);
  * @returns: String length as in Unicode code points (not bytes),
  *	excluding the terminating NUL byte
  */
-usize utf8_strlen(const char *restrict s);
+usize utf8_strlen(const char *__restrict s);
 
 /**
  * Get the amount of bytes a Unicode character takes up in UTF-8.
@@ -68,7 +73,7 @@ usize utf8_chrsize(nchar c, error *err);
  * @returns The amount of bytes taken up by the character,
  *	which is always between 1 and 4 except on errors
  */
-usize utf8_from_nchr(char *restrict dest, nchar c, error *err);
+usize utf8_from_nchr(char *__restrict dest, nchar c, error *err);
 
 /**
  * Decode a UTF-8 character and store it in `c`.
@@ -86,7 +91,11 @@ usize utf8_from_nchr(char *restrict dest, nchar c, error *err);
  * @returns The amount of bytes the character took up when encoded as UTF-8,
  *	which is always between 1 and 4 except on errors
  */
-usize utf8_to_nchr(nchar *c, const char *restrict utf8chr, error *err);
+usize utf8_to_nchr(nchar *c, const char *__restrict utf8chr, error *err);
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
 
 /*
  * This file is part of libneo.

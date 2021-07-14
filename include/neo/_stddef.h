@@ -2,19 +2,23 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "neo/_types.h"
 
 #define nil ((void *)0)
 
-#ifndef true
-#define true ((bool)1)
+#if !defined(__cplusplus) && !defined(true)
+#	define true ((bool)1)
 #endif
-#ifndef false
-#define false ((bool)0)
+#if !defined(__cplusplus) && !defined(false)
+#	define false ((bool)0)
 #endif
 
 #ifndef offsetof
-#define offsetof(type, member) __builtin_offsetof(type, member)
+#	define offsetof(type, member) __builtin_offsetof(type, member)
 #endif
 
 /**
@@ -34,6 +38,10 @@
  * that supports it.  This includes strings, buffers, lists, and more.
  */
 #define nlen(thing) ((thing)->__neo_nlen)
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
 
 /*
  * This file is part of libneo.

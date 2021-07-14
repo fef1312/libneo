@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "neo/_types.h"
 
 /**
@@ -46,19 +50,26 @@ void errput(error *err);
  * by `err` is an actual error, i.e. it has been `yeet`ed to.
  * Resources for the error must be released using `nput`.
  */
-#define catch(err) if ((err) != nil && (err)->_number != 0)
+#define ncatch(err) if ((err) != nil && (err)->_number != 0)
+#ifndef __cplusplus
+#	define catch(err) ncatch(err)
+#endif
 
 /**
  * Get the error number.
  * Must only be used within a catch block and before `errput` is called.
  */
-#define errnum(err) ((err)->_number)
+#define errnum(err) ((err) == nil ? 0 : (err)->_number)
 
 /**
  * Get an optional error message, this may be `nil`
  * Must only be used within a catch block and before `errput` is called.
  */
-#define errmsg(err) ((err)->_message)
+#define errmsg(err) ((err) == nil ? nil : (err)->_message)
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
 
 /*
  * This file is part of libneo.

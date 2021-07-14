@@ -2,6 +2,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "neo/_toolchain.h"
 #include "neo/_types.h"
 
@@ -45,6 +49,10 @@ void *nzalloc(usize size, error *err);
  */
 __neo_malloc(nfree, 1)
 void *nrealloc(void *ptr, usize newsize, error *err);
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
 
 /*
  * This file is part of libneo.

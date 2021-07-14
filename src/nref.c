@@ -1,23 +1,31 @@
 /** See the end of this file for copyright and license terms. */
 
+#include <stdatomic.h>
+
 #include "neo/_nref.h"
 #include "neo/_types.h"
 
+void _neo_nref_init(struct _neo_nref *ref)
+{
+	atomic_init(&ref->_count, 1);
+}
+
 int _neo_nget(struct _neo_nref *ref)
 {
-	return ++ref->_count;
+	int old = atomic_fetch_add(&ref->_count, 1);
+	return old + 1;
 }
 
 int _neo_nput(struct _neo_nref *ref)
 {
-	int count = --ref->_count;
+	int old = atomic_fetch_sub(&ref->_count, 1);
 
-	if (count == 0) {
+	if (old == 1) {
 		void *container = (void *)ref - ref->_offset;
 		ref->_destroy(container);
 	}
 
-	return count;
+	return old - 1;
 }
 
 /*

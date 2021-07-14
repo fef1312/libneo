@@ -6,10 +6,18 @@
 #error "Only gcc and clang are supported"
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "neo/_error.h"
 #include "neo/_types.h"
 #include "neo/_stddef.h"
 #include "neo/_nalloc.h"
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
 
 /*
  * This file is part of libneo.

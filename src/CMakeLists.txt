@@ -30,6 +30,8 @@ target_sources(neo PRIVATE
     ./nref.c
 )
 
+include(./string/string.cmake)
+
 # This file is part of libneo.
 # Copyright (c) 2021 Fefie <owo@fef.moe>.
 #

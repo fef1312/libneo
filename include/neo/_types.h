@@ -18,6 +18,9 @@ typedef __UINT64_TYPE__		u64;
 typedef __SIZE_TYPE__		usize;
 typedef __PTRDIFF_TYPE__	isize;
 
+/** A single Unicode character (32 bits) */
+typedef u32			nchar;
+
 typedef float		f32;
 typedef double		f64;
 typedef long double	f128;
@@ -35,12 +38,15 @@ struct _neo_nref {
 };
 /**
  * A basic reference counter for data structures.
- * Embed this into your data structure as the field `__neo_nref` and
+ * Embed this into your data structure as the field `__neo_nref`, initialize
+ * it using `nref_init`, and use `nget` and `nput` to increment/decrement the
+ * reference counter.
  */
 typedef struct _neo_nref nref_t;
 #define NREF_FIELD nref_t __neo_nref
 
 struct _neo_string {
+	/* The *amount of Unicode code points*, NOT amount of bytes */
 	NLEN_FIELD(_len);
 	NREF_FIELD;
 	usize _capacity;

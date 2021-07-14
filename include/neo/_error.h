@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+#include "neo/_toolchain.h"
 #include "neo/_types.h"
 
 /**
@@ -21,7 +22,7 @@ extern "C" {
  *	the values to insert which will become the error message.
  */
 __attribute__(( __format__(printf, 3, 4) ))
-void yeet(error *err, u32 number, const char *restrict fmt, ...);
+void yeet(error *err, u32 number, const char *__restrict fmt, ...);
 
 /**
  * Indicate an operation has completed successfully.

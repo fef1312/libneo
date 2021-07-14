@@ -1,14 +1,13 @@
 # See the end of this file for copyright and license terms.
 
-cmake_minimum_required(VERSION 3.0.0)
-project(neo VERSION 0.1.0 LANGUAGES C ASM)
+cmake_minimum_required(VERSION 3.14.0)
+project(neo VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_EXTENSIONS ON)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
     option(DEBUG "Enable debug features" ON)
-    include(CTest)
-    enable_testing()
 endif()
 
 find_package(Git QUIET)
@@ -28,6 +27,12 @@ endif()
 add_subdirectory(src)
 
 add_subdirectory(demo)
+
+option(BUILD_TESTING "Build tests" ON)
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR NEO_BUILD_TESTING) AND BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

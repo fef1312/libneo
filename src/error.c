@@ -26,8 +26,8 @@ void yeet(error *err, u32 number, const char *restrict fmt, ...)
 			va_start(vargs, fmt);
 			vsnprintf_ret = vsnprintf(msg, msg_capacity, fmt, vargs);
 			va_end(vargs);
-			if (vsnprintf_ret > 0) {
-				msg_capacity += vsnprintf_ret;
+			if (vsnprintf_ret > msg_capacity) {
+				msg_capacity = vsnprintf_ret;
 				nfree(msg);
 				msg = nil;
 			} else if (vsnprintf_ret < 0) {

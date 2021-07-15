@@ -1,5 +1,8 @@
 /** See the end of this file for copyright and license terms. */
 
+/* strnlen */
+#define _POSIX_C_SOURCE 200809L
+
 #include <errno.h>
 #include <string.h>
 
@@ -16,10 +19,10 @@ static void nstr_destroy(string *str)
 	nfree(str);
 }
 
-string *nstr(const char *restrict s, error *err)
+static string *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
 {
-	if (s == nil) {
-		yeet(err, EFAULT, "String must not be nil");
+	usize len = utf8_check(s, err);
+	catch(err) {
 		return nil;
 	}
 
@@ -40,22 +43,46 @@ string *nstr(const char *restrict s, error *err)
 	 *
 	 * Yeah, this is definitely never gonna break my legs.
 	 */
-	usize nbytes = strlen(s) + 4;
-	str->_data = nalloc(nbytes, err);
+
+	str->_data = nalloc(size_without_nul + 4, err);
 	catch(err) {
 		nfree(str);
 		return nil;
 	}
 
-	strcpy(str->_data, s);
-	str->_data[nbytes - 3] = '\0';
-	str->_data[nbytes - 2] = '\0';
-	str->_data[nbytes - 1] = '\0';
-	str->_len = utf8_strlen(str->_data);
-	str->_capacity = nbytes;
+	str->_len = len;
+	str->_capacity = size_without_nul + 4;
 	nref_init(str, nstr_destroy);
 
+	memcpy(str->_data, s, size_without_nul);
+	str->_data[size_without_nul] = '\0';
+	str->_data[size_without_nul + 1] = '\0';
+	str->_data[size_without_nul + 2] = '\0';
+	str->_data[size_without_nul + 3] = '\0';
+
 	return str;
+}
+
+string *nstr(const char *restrict s, error *err)
+{
+	if (s == nil) {
+		yeet(err, EFAULT, "String is nil");
+		return nil;
+	}
+
+	usize size_without_nul = strlen(s);
+	return nstr_unsafe(s, size_without_nul, err);
+}
+
+string *nnstr(const char *restrict s, usize maxsize, error *err)
+{
+	if (s == nil) {
+		yeet(err, EFAULT, "String is nil");
+		return nil;
+	}
+
+	usize size_without_nul = strnlen(s, maxsize);
+	return nstr_unsafe(s, size_without_nul, err);
 }
 
 nchar nchrat(const string *s, usize index, error *err)

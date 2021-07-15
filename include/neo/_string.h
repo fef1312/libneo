@@ -23,6 +23,20 @@ extern "C" {
 string *nstr(const char *__restrict s, error *err);
 
 /**
+ * Copy a regular C string to a neo string, but at most `maxsize` bytes.
+ *
+ * The string is copied until a NUL terminator is encountered, or until
+ * `maxsize` bytes have been read.  If `maxsize` is 0, an empty string is
+ * returned.  If `s` is `nil` or allocation fails, an error is yeeted.
+ * Strings in libneo are reference counted, see `nget` and `nput`.
+ *
+ * @param s: String to convert
+ * @param err: Error pointer
+ * @returns The converted string, unless an error occurred
+ */
+string *nnstr(const char *__restrict s, usize maxsize, error *err);
+
+/**
  * Get the Unicode code point in a string at the specified index.
  *
  * If the string is `nil` or the index is out of range, an error is yeeted.

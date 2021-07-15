@@ -6,7 +6,7 @@
 #include <neo.h>
 #include <neo/utf.h>
 
-TEST_CASE( "Decode 1-byte character sequence", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Decode 1-byte character sequence", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -18,7 +18,7 @@ TEST_CASE( "Decode 1-byte character sequence", "[utf8_to_nchr]" )
 	REQUIRE( errmsg(&err) == nil );
 }
 
-TEST_CASE( "Decode 2-byte character sequence", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Decode 2-byte character sequence", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -31,7 +31,7 @@ TEST_CASE( "Decode 2-byte character sequence", "[utf8_to_nchr]" )
 	REQUIRE( errmsg(&err) == nil );
 }
 
-TEST_CASE( "Decode 3-byte character sequence", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Decode 3-byte character sequence", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -44,7 +44,7 @@ TEST_CASE( "Decode 3-byte character sequence", "[utf8_to_nchr]" )
 	REQUIRE( errmsg(&err) == nil );
 }
 
-TEST_CASE( "Decode 4-byte character sequence", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Decode 4-byte character sequence", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -57,7 +57,7 @@ TEST_CASE( "Decode 4-byte character sequence", "[utf8_to_nchr]" )
 	REQUIRE( errmsg(&err) == nil );
 }
 
-TEST_CASE( "Error on malformed sequence start", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Error on malformed sequence start", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -72,7 +72,7 @@ TEST_CASE( "Error on malformed sequence start", "[utf8_to_nchr]" )
 	errput(&err);
 }
 
-TEST_CASE( "Error on wrong second byte", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Error on wrong second byte", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -87,7 +87,7 @@ TEST_CASE( "Error on wrong second byte", "[utf8_to_nchr]" )
 	errput(&err);
 }
 
-TEST_CASE( "Error on wrong third byte", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Error on wrong third byte", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -102,7 +102,7 @@ TEST_CASE( "Error on wrong third byte", "[utf8_to_nchr]" )
 	errput(&err);
 }
 
-TEST_CASE( "Error on wrong fourth byte", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Error on wrong fourth byte", "[string/utf.c]" )
 {
 	error err;
 	nchar c;
@@ -117,7 +117,7 @@ TEST_CASE( "Error on wrong fourth byte", "[utf8_to_nchr]" )
 	errput(&err);
 }
 
-TEST_CASE( "Error on non canonical encoding", "[utf8_to_nchr]" )
+TEST_CASE( "utf8_to_nchr: Error on non canonical encoding", "[string/utf.c]" )
 {
 	error err;
 	nchar c;

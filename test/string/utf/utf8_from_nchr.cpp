@@ -6,7 +6,7 @@
 #include <neo.h>
 #include <neo/utf.h>
 
-TEST_CASE( "Encode 1-byte character", "[utf8_from_nchr]" )
+TEST_CASE( "utf8_from_nchr: Encode 1-byte character", "[string/utf.c]" )
 {
 	char buf[5] = { '\xff', '\xff', '\xff', '\xff', '\xff' };
 	error err;
@@ -21,7 +21,7 @@ TEST_CASE( "Encode 1-byte character", "[utf8_from_nchr]" )
 	REQUIRE( errnum(&err) == 0 );
 }
 
-TEST_CASE( "Encode 2-byte character", "[utf8_from_nchr]" )
+TEST_CASE( "utf8_from_nchr: Encode 2-byte character", "[string/utf.c]" )
 {
 	char buf[5] = { '\xff', '\xff', '\xff', '\xff', '\xff' };
 	error err;
@@ -37,7 +37,7 @@ TEST_CASE( "Encode 2-byte character", "[utf8_from_nchr]" )
 	REQUIRE( errnum(&err) == 0 );
 }
 
-TEST_CASE( "Encode 3-byte character", "[utf8_from_nchr]" )
+TEST_CASE( "utf8_from_nchr: Encode 3-byte character", "[string/utf.c]" )
 {
 	char buf[5] = { '\xff', '\xff', '\xff', '\xff', '\xff' };
 	error err;
@@ -53,7 +53,7 @@ TEST_CASE( "Encode 3-byte character", "[utf8_from_nchr]" )
 	REQUIRE( errnum(&err) == 0 );
 }
 
-TEST_CASE( "Encode 4-byte character", "[utf8_from_nchr]" )
+TEST_CASE( "utf8_from_nchr: Encode 4-byte character", "[string/utf.c]" )
 {
 	char buf[5] = { '\xff', '\xff', '\xff', '\xff', '\xff' };
 	error err;
@@ -69,7 +69,7 @@ TEST_CASE( "Encode 4-byte character", "[utf8_from_nchr]" )
 	REQUIRE( errnum(&err) == 0 );
 }
 
-TEST_CASE( "Error if out of Unicode range", "[utf8_from_nchr]" )
+TEST_CASE( "utf8_from_nchr: Error if out of Unicode range", "[string/utf.c]" )
 {
 	char buf[5] = { '\xff', '\xff', '\xff', '\xff', '\xff' };
 	error err;
@@ -87,7 +87,7 @@ TEST_CASE( "Error if out of Unicode range", "[utf8_from_nchr]" )
 	REQUIRE( size == 0 );
 	REQUIRE( errnum(&err) == EINVAL );
 	REQUIRE( nstreq(expected, actual, nil) );
-	printf("%s\n", errmsg(&err)->_data);
+	errput(&err);
 }
 
 /*

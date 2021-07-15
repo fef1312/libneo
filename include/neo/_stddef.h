@@ -21,6 +21,10 @@ extern "C" {
 #	define offsetof(type, member) __builtin_offsetof(type, member)
 #endif
 
+#ifndef typeof
+#	define typeof(expr) __typeof(expr)
+#endif
+
 /** Get the absolute (non negative) value of an integer */
 #define nabs(n) ({								\
 	/* n is an expression, not a variable, evaluate it only once */		\

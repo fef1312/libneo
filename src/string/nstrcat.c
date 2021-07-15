@@ -1,5 +1,8 @@
 /** See the end of this file for copyright and license terms. */
 
+/* strnlen */
+#define _POSIX_C_SOURCE 200809L
+
 #include <errno.h>
 #include <string.h>
 
@@ -21,15 +24,17 @@ string *nstrcat(const string *s1, const string *s2, error *err)
 		return nil;
 	}
 
-	usize s1_size = strlen(s1->_data);
-	usize s2_size = strlen(s2->_data);
-	char *cat = nalloc(s1_size + s2_size + 1, err);
+	usize s1_size_without_nul = strlen(s1->_data);
+	usize s2_size_without_nul = strlen(s2->_data);
+	usize cat_size = s1_size_without_nul + s2_size_without_nul + 1;
+	char *cat = nalloc(cat_size, err);
 	catch(err) {
 		return nil;
 	}
 
-	strcpy(cat, s1->_data);
-	strcpy(cat + s1_size, s2->_data);
+	memcpy(cat, s1->_data, s1_size_without_nul);
+	memcpy(cat + s1_size_without_nul, s2->_data, s2_size_without_nul);
+	cat[s1_size_without_nul + s2_size_without_nul] = '\0';
 
 	string *ret = nstr(cat, err);
 	nfree(cat);

@@ -16,8 +16,8 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(Catch)
 
 add_executable(neo_test neo_test.cpp)
+include(string/string.cmake)
 
-target_compile_features(neo_test PRIVATE cxx_std_17)
 target_link_libraries(neo_test PRIVATE neo Catch2::Catch2)
 
 catch_discover_tests(neo_test)

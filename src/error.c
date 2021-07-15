@@ -16,22 +16,22 @@
 void yeet(error *err, u32 number, const char *restrict fmt, ...)
 {
 	va_list vargs;
-	usize msg_capacity = 64;
+	usize msg_size = 64;
 	char *msg = nil;
-	int vsnprintf_ret;
 
 	if (fmt != nil) {
 		do {
-			msg = nalloc(msg_capacity, nil);
+			msg = nalloc(msg_size, nil);
 			va_start(vargs, fmt);
-			vsnprintf_ret = vsnprintf(msg, msg_capacity, fmt, vargs);
+			int required_size = vsnprintf(msg, msg_size, fmt, vargs);
 			va_end(vargs);
-			if (vsnprintf_ret > msg_capacity) {
-				msg_capacity = vsnprintf_ret;
+			/* required_size excludes NUL, therefore >= */
+			if (required_size >= msg_size) {
+				msg_size = required_size + 1;
 				nfree(msg);
 				msg = nil;
-			} else if (vsnprintf_ret < 0) {
-				write(1, "Runtime error\n", 14);
+			} else if (required_size < 0) {
+				write(2, "Runtime error\n", strlen("Runtime error\n"));
 				exit(1);
 			}
 		} while (msg == nil);
@@ -46,6 +46,7 @@ void yeet(error *err, u32 number, const char *restrict fmt, ...)
 
 	err->_number = number;
 	err->_message = nstr(msg, nil);
+	nfree(msg);
 }
 
 void neat(error *err)

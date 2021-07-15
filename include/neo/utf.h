@@ -61,9 +61,9 @@ usize utf8_strlen(const char *__restrict s);
 usize utf8_chrsize(nchar c, error *err);
 
 /**
- * UTF-8 encode a Unicode character and store it in `dest` without terminator.
+ * UTF-8 encode a Unicode character and store it in `dest` with NUL terminator.
  *
- * The buffer needs to hold at least 4 bytes.  If the character is outside of
+ * The buffer needs to hold at least 5 bytes.  If the character is outside of
  * the Unicode range (`0x00000000`~`0x0010ffff`), an error is yeeted and the
  * buffer is not modified.
  *

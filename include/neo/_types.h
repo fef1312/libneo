@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "neo/_stddef.h"
 
 typedef __INT8_TYPE__		i8;
@@ -71,10 +67,6 @@ struct _neo_error {
 	u32 _flags; /* see src/error.c */
 };
 typedef struct _neo_error error;
-
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
 
 /*
  * This file is part of libneo.

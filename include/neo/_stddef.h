@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "neo/_types.h"
 
 #ifdef __cplusplus
@@ -53,10 +49,6 @@ extern "C" {
  * that supports it.  This includes strings, buffers, lists, and more.
  */
 #define nlen(thing) ((thing)->__neo_nlen)
-
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
 
 /*
  * This file is part of libneo.

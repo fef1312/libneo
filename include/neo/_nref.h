@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "neo/_types.h"
 
 /**
@@ -50,10 +46,6 @@ int _neo_nput(struct _neo_nref *ref);
  * @returns The new reference count
  */
 #define nput(ptr) (_neo_nput( &(ptr)->__neo_nref ))
-
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
 
 /*
  * This file is part of libneo.

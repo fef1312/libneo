@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "neo/_types.h"
 #include "neo/_toolchain.h"
 
@@ -177,10 +173,6 @@ string *leftpad(const string *s, usize length, nchar fill, error *err);
 	     *__pos != '\0' && (err) != nil &&					\
 		 (err)->_number + 1 < 2;					\
 	     __pos += utf8_to_nchr(nchr, __pos, err))
-
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
 
 /*
  * This file is part of libneo.

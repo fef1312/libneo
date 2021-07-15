@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "neo/_toolchain.h"
 #include "neo/_types.h"
 
@@ -67,10 +63,6 @@ void errput(error *err);
  * Must only be used within a catch block and before `errput` is called.
  */
 #define errmsg(err) ((err) == nil ? (string *)nil : (err)->_message)
-
-#ifdef __cplusplus
-}; /* extern "C" */
-#endif
 
 /*
  * This file is part of libneo.

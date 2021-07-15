@@ -40,7 +40,7 @@ usize utf8_strlen(const char *restrict s)
 	return len;
 }
 
-usize utf8_nchr_size(nchar c, error *err)
+usize utf8_chrsize(nchar c, error *err)
 {
 	usize ret;
 
@@ -76,7 +76,7 @@ usize utf8_from_nchr(char *restrict dest, nchar c, error *err)
 {
 	static const u8 prefixes[] = { 0x00, 0x00, 0xc0, 0xe0, 0xf0 };
 
-	usize utf8_size = utf8_nchr_size(c, err);
+	usize utf8_size = utf8_chrsize(c, err);
 	catch(err) {
 		*dest = '\0';
 		return 0;
@@ -200,7 +200,7 @@ usize utf8_to_nchr(nchar *dest, const char *restrict _utf8chr, error *err)
 		if ((eflags & 0x01) != 0) {
 			yeet(err, EINVAL,
 			     "Non canonical UTF-8 encoding: %zu byte character stored in %u bytes",
-			     utf8_nchr_size(c, nil), len);
+			     utf8_chrsize(c, nil), len);
 		} else if ((eflags & 0x02) != 0) {
 			yeet(err, EINVAL, "Illegal UTF-8 sequence start byte: 0x%02x", utf8chr[0]);
 		} else if ((eflags & 0x0c) != 0) {

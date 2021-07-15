@@ -133,7 +133,7 @@ int nstrcmp(const string *s1, const string *s2, error *err);
  * @param err: Error pointer
  * @returns Whether the two strings are equal, unless an error occurred
  */
-#define nstreq(s1, s2, err) ( (bool)(nstrcmp(s1, s2, err) != 0) )
+#define nstreq(s1, s2, err) ( (bool)(nstrcmp(s1, s2, err) == 0) )
 
 /**
  * Prepend fill characters to a string to make it a specific length, and return

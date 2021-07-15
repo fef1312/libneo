@@ -48,7 +48,6 @@ string *leftpad(const string *s, usize len, nchar fillchr, error *err)
 		return 0;
 	}
 
-	nget(s);
 	string *padded;
 
 	if (len < s->_len) {
@@ -60,7 +59,6 @@ string *leftpad(const string *s, usize len, nchar fillchr, error *err)
 		padded = leftpad_unsafe(s, len, fillchr, err);
 	}
 
-	nput(s);
 	return padded;
 }
 

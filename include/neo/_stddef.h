@@ -8,7 +8,11 @@ extern "C" {
 
 #include "neo/_types.h"
 
-#define nil ((void *)0)
+#ifdef __cplusplus
+#	define nil nullptr
+#else
+#	define nil ((void *)0)
+#endif
 
 #if !defined(__cplusplus) && !defined(true)
 #	define true ((bool)1)

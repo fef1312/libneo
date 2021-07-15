@@ -57,7 +57,7 @@ string *nchrmul(nchar c, usize n, error *err)
 
 	char *pos = multiplied;
 	while (n-- != 0) {
-		strncpy(pos, &s[0], s_size);
+		memcpy(pos, &s[0], s_size);
 		pos += s_size;
 	}
 

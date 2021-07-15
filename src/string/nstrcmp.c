@@ -22,13 +22,13 @@ int nstrcmp(const string *s1, const string *s2, error *err)
 
 	int ret;
 
-	if (nlen(s1) > nlen(s2))
-		ret = 1;
-	else if (nlen(s1) < nlen(s2))
-		ret = -1;
+	usize maxbytes;
+	if (s1->_capacity > s2->_capacity)
+		maxbytes = s2->_capacity;
 	else
-		ret = strcmp(s1->_data, s2->_data);
+		maxbytes = s1->_capacity;
 
+	ret = strncmp(s1->_data, s2->_data, maxbytes);
 	neat(err);
 	return ret;
 }

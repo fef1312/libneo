@@ -1,6 +1,7 @@
 # See the end of this file for copyright and license terms.
 
 target_sources(neo_test PRIVATE
+    string/utf/utf8_from_nchr.cpp
     string/utf/utf8_to_nchr.cpp
 )
 

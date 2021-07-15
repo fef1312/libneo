@@ -1,7 +1,8 @@
 # See the end of this file for copyright and license terms.
 
 enable_language(CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(CTest)
 include(FetchContent)
@@ -11,13 +12,15 @@ FetchContent_Declare(
     GIT_TAG v2.13.6
 )
 FetchContent_MakeAvailable(Catch2)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
+include(Catch)
 
 add_executable(neo_test neo_test.cpp)
 
 target_compile_features(neo_test PRIVATE cxx_std_17)
 target_link_libraries(neo_test PRIVATE neo Catch2::Catch2)
 
-add_test(NAME neo COMMAND neo_test)
+catch_discover_tests(neo_test)
 
 # This file is part of libneo.
 # Copyright (c) 2021 Fefie <owo@fef.moe>.

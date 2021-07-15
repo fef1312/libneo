@@ -19,7 +19,13 @@ static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, 
 	}
 
 	usize extra_chars = len - s->_len;
-	usize size_now = s->_capacity + 1;
+	/*
+	 * This is actually three bytes larger than the actual size because neo
+	 * strings are terminated with four NUL characters rather than just one,
+	 * but that's okay because if we don't even have enough memory for three
+	 * extra bytes we are screwed anyway.
+	 */
+	usize size_now = s->_capacity;
 	usize size_after = size_now + (extra_chars * fillchr_size);
 	char *dest = nalloc(size_after, err);
 	catch(err) {
@@ -50,10 +56,10 @@ string *leftpad(const string *s, usize len, nchar fillchr, error *err)
 
 	string *padded;
 
-	if (len < s->_len) {
+	if (len < nlen(s)) {
 		yeet(err, ERANGE, "String is longer than requested length");
 		padded = nil;
-	} else if (s->_len == len) {
+	} else if (nlen(s) == len) {
 		padded = nstrdup(s, err);
 	} else {
 		padded = leftpad_unsafe(s, len, fillchr, err);

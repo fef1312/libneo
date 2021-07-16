@@ -56,7 +56,8 @@ struct _neo_string {
 	/* The *amount of Unicode code points*, NOT amount of bytes */
 	NLEN_FIELD(_len);
 	NREF_FIELD;
-	usize _capacity;
+	/* physical size in bytes, including the four NUL terminators */
+	usize _size;
 	char *_data;
 };
 typedef struct _neo_string string;

@@ -25,7 +25,7 @@ static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, 
 	 * but that's okay because if we don't even have enough memory for three
 	 * extra bytes we are screwed anyway.
 	 */
-	usize size_now = s->_capacity;
+	usize size_now = s->_size;
 	usize size_after = size_now + (extra_chars * fillchr_size);
 	char *dest = nalloc(size_after, err);
 	catch(err) {

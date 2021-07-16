@@ -51,7 +51,7 @@ static string *nstr_unsafe(const char *restrict s, usize size_without_nul, error
 	}
 
 	str->_len = len;
-	str->_capacity = size_without_nul + 4;
+	str->_size = size_without_nul + 4;
 	nref_init(str, nstr_destroy);
 
 	memcpy(str->_data, s, size_without_nul);

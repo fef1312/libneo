@@ -23,10 +23,10 @@ int nstrcmp(const string *s1, const string *s2, error *err)
 	int ret;
 
 	usize maxbytes;
-	if (s1->_capacity > s2->_capacity)
-		maxbytes = s2->_capacity;
+	if (s1->_size > s2->_size)
+		maxbytes = s2->_size;
 	else
-		maxbytes = s1->_capacity;
+		maxbytes = s1->_size;
 
 	ret = strncmp(s1->_data, s2->_data, maxbytes);
 	neat(err);

@@ -36,6 +36,22 @@ extern "C" {
 usize utf8_check(const char *__restrict s, error *err);
 
 /**
+ * Check whether a NUL terminated string is valid UTF-8, but read at most
+ * `maxsize + 3` bytes (this function uses `utf8_to_nchr` internally).
+ *
+ * If a NUL terminator is encountered before `maxsize` bytes, reading stops
+ * before the specified size.  If the string contains any malformed code
+ * sequences, an error is yeeted.
+ *
+ * @param s: String to validate
+ * @param maxsize: Maximum amount of byte to read from `s`
+ * @param err: Error pointer
+ * @returns The number of UTF-8 code points (i.e. number of Unicode characters)
+ *	excluding the terminating NUL byte; undefined on error
+ */
+usize utf8_ncheck(const char *__restrict s, usize maxsize, error *err);
+
+/**
  * Compute the length of a raw UTF-8 encoded, NUL terminated string.
  *
  * The string is *not* checked for malformed code sequences,

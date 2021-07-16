@@ -30,6 +30,24 @@ usize utf8_check(const char *restrict s, error *err)
 	return ret;
 }
 
+usize utf8_ncheck(const char *restrict s, usize maxsize, error *err)
+{
+	usize ret = 0;
+	nchar c;
+
+	while (*s != '\0' && maxsize != 0) {
+		ret++;
+		usize size = utf8_to_nchr(&c, s, err);
+		s += size;
+		maxsize -= size;
+		catch(err) {
+			break;
+		}
+	}
+
+	return ret;
+}
+
 usize utf8_strlen(const char *restrict s)
 {
 	usize len = 0;

@@ -4,6 +4,7 @@ target_sources(neo_test PRIVATE
     string/utf/utf8_check.cpp
     string/utf/utf8_chrsize.cpp
     string/utf/utf8_from_nchr.cpp
+    string/utf/utf8_ncheck.cpp
     string/utf/utf8_strlen.cpp
     string/utf/utf8_to_nchr.cpp
 )

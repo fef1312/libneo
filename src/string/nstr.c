@@ -21,7 +21,7 @@ static void nstr_destroy(string *str)
 
 static string *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
 {
-	usize len = utf8_check(s, err);
+	usize len = utf8_ncheck(s, size_without_nul, err);
 	catch(err) {
 		return nil;
 	}

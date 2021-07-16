@@ -11,13 +11,21 @@
 
 int nstrcmp(const string *s1, const string *s2, error *err)
 {
+	/*
+	 * Return values are always undefined if an error was yeeted so it's not
+	 * strictly necessary to return a correct(ish) result here, but the
+	 * philosophy of libneo is to always behave in a way that is the least
+	 * harmful.
+	 */
 	if (s1 == nil) {
 		yeet(err, EFAULT, "First string is nil");
-		return 0;
+		if (s2 == nil)
+			return 0;
+		return -1;
 	}
 	if (s2 == nil) {
 		yeet(err, EFAULT, "Second string is nil");
-		return 0;
+		return 1;
 	}
 
 	int ret;

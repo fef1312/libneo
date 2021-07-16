@@ -50,7 +50,7 @@ static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, 
 string *leftpad(const string *s, usize len, nchar fillchr, error *err)
 {
 	if (s == nil) {
-		yeet(err, EFAULT, "String must not be nil");
+		yeet(err, EFAULT, "String is nil");
 		return 0;
 	}
 

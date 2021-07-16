@@ -2,6 +2,16 @@
 
 include(string/utf/utf.cmake)
 
+target_sources(neo_test PRIVATE
+    string/i2nstr.cpp
+    string/leftpad.cpp
+    string/nstr.cpp
+    string/nstrcat.cpp
+    string/nstrcmp.cpp
+    string/nstrdup.cpp
+    string/u2nstr.cpp
+)
+
 # This file is part of libneo.
 # Copyright (c) 2021 Fefie <owo@fef.moe>.
 #

@@ -1,10 +1,18 @@
 /** See the end of this file for copyright and license terms. */
 
+#include <errno.h>
+
+#include "neo/_error.h"
 #include "neo/_string.h"
 #include "neo/_types.h"
 
 string *nstrdup(const string *s, error *err)
 {
+	if (s == nil) {
+		yeet(err, EFAULT, "String is nil");
+		return nil;
+	}
+
 	return nstr(s->_data, err);
 }
 

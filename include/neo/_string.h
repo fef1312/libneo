@@ -72,7 +72,8 @@ string *u2nstr(u64 u, int radix, error *err);
 /**
  * Duplicate a string.
  *
- * If `s` is `nil` or allocation fails, an error is yeeted.
+ * This should never be neccessary because strings in libneo are refcounted
+ * and immutable.  If `s` is `nil` or allocation fails, an error is yeeted.
  *
  * @param s: String to duplicate
  * @param err: Error pointer

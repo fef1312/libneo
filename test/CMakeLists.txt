@@ -18,6 +18,10 @@ include(Catch)
 add_executable(neo_test neo_test.cpp)
 include(string/string.cmake)
 
+target_sources(neo_test PRIVATE
+    nref.cpp
+)
+
 target_link_libraries(neo_test PRIVATE neo Catch2::Catch2)
 
 catch_discover_tests(neo_test)

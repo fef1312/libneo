@@ -40,12 +40,15 @@ int _neo_nput(struct _neo_nref *ref);
  * Decrement the reference counter of a structure embedding `NREF_FIELD`.
  *
  * If the counter reaches zero, the destroy callback passed to `nref_init`
- * is invoked.
+ * is invoked and the pointer is set to `nil` to prevent any further usage.
  *
  * @param ptr: The `struct *` to decrement the reference counter of
  * @returns The new reference count
  */
-#define nput(ptr) (_neo_nput( &(ptr)->__neo_nref ))
+#define nput(ptr) ({					\
+	if (_neo_nput(&(ptr)->__neo_nref) == 0)		\
+		ptr = nil;				\
+})
 
 /*
  * This file is part of libneo.

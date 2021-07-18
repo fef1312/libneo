@@ -2,8 +2,7 @@
 
 add_library(neo STATIC)
 
-add_compile_options(-nodefaultlibs)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+target_link_options(neo INTERFACE -T${CMAKE_SOURCE_DIR}/src/neo.ld)
 
 execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(TOLOWER "${HOST_ARCH}" HOST_ARCH)
@@ -26,6 +25,7 @@ target_include_directories(neo PRIVATE
 
 target_sources(neo PRIVATE
     ./error.c
+    ./list.c
     ./nalloc.c
     ./nref.c
 )

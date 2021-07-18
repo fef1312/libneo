@@ -10,6 +10,7 @@
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
 #include "neo/_string.h"
+#include "neo/_toolchain.h"
 #include "neo/_types.h"
 #include "neo/utf.h"
 
@@ -107,6 +108,20 @@ nchar nchrat(const string *s, usize index, error *err)
 
 	return ret;
 }
+
+/* see src/neo.ld */
+extern struct _neo_nstr_init_info __neo_nstr_array_start;
+extern struct _neo_nstr_init_info __neo_nstr_array_end;
+
+void _neo_nstr_init_array(void)
+{
+	struct _neo_nstr_init_info *ptr = &__neo_nstr_array_start;
+	while (ptr != &__neo_nstr_array_end) {
+		*ptr->dest = nstr(ptr->data, nil);
+		ptr++;
+	}
+}
+__neo_init(_neo_nstr_init_array);
 
 /*
  * This file is part of libneo.

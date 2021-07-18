@@ -60,6 +60,26 @@ TEST_CASE( "nnstr: Error if raw strig is nil", "[string/nstr,c]")
 	errput(&err);
 }
 
+NSTR_DEFINE(static_test_string_1, "i'm gay,,,");
+
+TEST_CASE( "_neo_nstr_init_array: Statically initialize ASCII string", "[string/nstr.c]" )
+{
+	string *expected_s1 = nstr("i'm gay,,,", nil);
+
+	REQUIRE( nstreq(expected_s1, static_test_string_1, nil) );
+	REQUIRE( nlen(static_test_string_1) == 10 );
+}
+
+NSTR_DEFINE(static_test_string_2, "i'm gay\xf0\x9f\xa5\xba,,,");
+
+TEST_CASE( "_neo_nstr_init_array: Statically initialize UTF-8 string", "[string/nstr.c]" )
+{
+	string *expected_s2 = nstr("i'm gay\xf0\x9f\xa5\xba,,,", nil);
+
+	REQUIRE( nstreq(expected_s2, static_test_string_2, nil) );
+	REQUIRE( nlen(static_test_string_2) == 11 );
+}
+
 /*
  * This file is part of libneo.
  * Copyright (c) 2021 Fefie <owo@fef.moe>.

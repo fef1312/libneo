@@ -33,20 +33,11 @@
 })
 
 /**
- * Declare a length field in a structure.
- * This makes it compatible with the `nlen` macro.
+ * Quickly get the length (as in amount of items, not bytes) of any libneo data
+ * structure that supports it.  This includes strings, buffers, lists, and more.
  *
- * @param name: field name, will be of type `usize`
- */
-#define NLEN_FIELD(name)		\
-	union {				\
-		usize name;		\
-		const usize __neo_nlen;	\
-	}
-
-/**
- * Quickly get the length (as a `const usize`) of any libneo data structure
- * that supports it.  This includes strings, buffers, lists, and more.
+ * @param thing: Thing to get the length of
+ * @returns: The length as a `const usize`
  */
 #define nlen(thing) ((thing)->__neo_nlen)
 

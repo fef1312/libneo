@@ -6,6 +6,33 @@
 #include "neo/_toolchain.h"
 
 /**
+ * Used internally for statically initializing strings created with
+ * the `NSTR_DEFINE` macro.  This is written to a special data section that
+ * is iterated over before program start; see `_neo_nstr_init_array` in
+ * `src/string/nstr.c` for details.
+ */
+struct _neo_nstr_init_info {
+	string **dest;
+	const char *data;
+};
+
+/**
+ * Statically define a neo string.
+ *
+ * The string will be initialized before `main` is called.
+ *
+ * @param name: Name of the `string *` variable to be declared
+ * @param content: A `const char *` with the contents of the string
+ */
+#define NSTR_DEFINE(name, content)						\
+	string *name = nil;							\
+	__neo_section(.data.__neo.nstr_array)					\
+	struct _neo_nstr_init_info __neo_nstr_init_info_##name = {		\
+		.dest = &name,							\
+		.data = content,						\
+	}
+
+/**
  * Copy a regular C string to a neo string.
  *
  * `s` must be NUL terminated, and be deallocated manually if no longer needed.

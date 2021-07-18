@@ -37,6 +37,18 @@ typedef long double	f128;
 #	endif
 #endif
 
+/**
+ * Declare a length field in a structure.
+ * This makes it compatible with the `nlen` macro.
+ *
+ * @param name: field name, will be of type `usize`
+ */
+#define NLEN_FIELD(name)		\
+	union {				\
+		usize name;		\
+		const usize __neo_nlen;	\
+	}
+
 struct _neo_nref {
 	void (*_destroy)(void *);
 	/** byte offset into the struct this is embedded in */

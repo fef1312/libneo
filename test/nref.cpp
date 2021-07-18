@@ -5,18 +5,23 @@
 
 #include <neo.h>
 
-struct nref_test {
+/*
+ * nref_init uses offsetof internally to be able to cast the nref_t field out
+ * to the containing structure which is then passed to the destroy callback if
+ * the refcount reached zero.  Neither gcc nor Clang seem to like using offsetof
+ * in certain structures containing fields only valid in C++, and since libneo
+ * is specifically meant to be used in plain C code anyway we just declare the
+ * test structure as extern to make sure we actually test the behavior of the C
+ * code rather than the fun quirks C++ is infamous for.
+ */
+extern "C" struct nref_test {
 	NREF_FIELD;
-	std::function<void(void)> cb;
-	nref_test(std::function<void(void)> cb)
-	{
-		this->cb = cb;
-	}
+	bool *called;
 };
 
 void test_destroy(struct nref_test *ptr)
 {
-	ptr->cb();
+	*ptr->called = true;
 	delete ptr;
 }
 
@@ -25,9 +30,8 @@ SCENARIO( "nref: call destroy callback when count reaches 0", "[src/nref.c]" )
 	GIVEN( "structure is initialized" )
 	{
 		bool called = false;
-		struct nref_test *instance = new nref_test([&called]() {
-			called = true;
-		});
+		struct nref_test *instance = new nref_test();
+		instance->called = &called;
 		nref_init(instance, test_destroy);
 
 		REQUIRE( !called );

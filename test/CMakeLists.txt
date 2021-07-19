@@ -19,6 +19,7 @@ add_executable(neo_test neo_test.cpp)
 include(string/string.cmake)
 
 target_sources(neo_test PRIVATE
+    list.cpp
     nref.cpp
 )
 

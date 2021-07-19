@@ -15,8 +15,9 @@
  * code rather than the fun quirks C++ is infamous for.
  */
 extern "C" struct nref_test {
-	NREF_FIELD;
 	bool *called;
+	/* NREF_FIELD is not at the beginning to ensure offsets are subtracted */
+	NREF_FIELD;
 };
 
 void test_destroy(struct nref_test *ptr)

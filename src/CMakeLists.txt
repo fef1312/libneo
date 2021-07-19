@@ -2,7 +2,7 @@
 
 add_library(neo STATIC)
 
-target_link_options(neo INTERFACE -T${CMAKE_CURRENT_SOURCE_DIR}/src/neo.ld)
+target_link_options(neo INTERFACE -T${CMAKE_SOURCE_DIR}/src/neo.ld)
 
 execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(TOLOWER "${HOST_ARCH}" HOST_ARCH)

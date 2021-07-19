@@ -77,7 +77,6 @@ typedef struct _neo_string string;
 struct _neo_error {
 	string *_message;
 	u32 _number;
-	u32 _flags; /* see src/error.c */
 };
 typedef struct _neo_error error;
 

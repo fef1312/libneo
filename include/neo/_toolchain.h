@@ -13,10 +13,10 @@
 #define __neo_section(name) __attribute__(( __section__(#name) ))
 
 #define __neo_init(fn) \
-	__neo_section(.init_array) static void (*__neo_init_##fn)(void) = fn
+	__neo_section(.init_array) void (*__neo_init_##fn)(void) = fn
 
 #define __neo_fini(fn) \
-	__neo_section(.fini_array) static void (*__neo_fini_##fn)(void) = fn
+	__neo_section(.fini_array) void (*__neo_fini_##fn)(void) = fn
 
 #ifdef __cplusplus
 #	define __restrict

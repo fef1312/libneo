@@ -9,6 +9,8 @@ extern "C" {
 #include "neo/_stddef.h"
 #include "neo/_types.h"
 
+struct _neo_list;
+
 struct _neo_listnode {
 	struct _neo_listnode *_next;
 	struct _neo_listnode *_prev;
@@ -44,33 +46,30 @@ void list_init(list_t *list);
 #define _neo_list_is_root(casted, list, member) \
 	( &(casted)->member == &(list)->_root )
 
-#define _neo_list_first(list, type, member) ({		\
-	void *__ptr = (list)->_root._next;		\
-	(type)( __ptr - offsetof(type, member) );	\
-})
+/*
+ * we use u8 * for pointer arithmetic here because this is code is compiled with
+ * external compiler settings which my complain about calculating with void *
+ */
 
-#define _neo_list_last(list, type, member) ({		\
-	void *__ptr = (list)->_root._prev;		\
-	(type)( __ptr - offsetof(type, member) );	\
-})
+#define _neo_list_first(list, type, member) \
+	((type *)( (u8 *)((list)->_root._next) - offsetof(type, member) ))
 
-#define _neo_list_next(current, member) ({					\
-	void *__next = (current)->member._next;					\
-	(typeof(current))( __next - offsetof(typeof(current), member) );	\
-})
+#define _neo_list_last(list, type, member) \
+	((type *)( (u8 *)((list)->_root._prev) - offsetof(type, member) ))
 
-#define _neo_list_prev(current, member) ({					\
-	void *__prev = (current)->member._prev;					\
-	(typeof(current))( __prev - offsetof(typeof(current), member) );	\
-})
+#define _neo_list_next(current, member) \
+	((typeof(current))( (u8 *)((current)->member._next) - offsetof(typeof(*(current)), member) ))
+
+#define _neo_list_prev(current, member) \
+	((typeof(current))( (u8 *)((current)->member._prev) - offsetof(typeof(*(current)), member) ))
 
 /**
  * Append a new node to the end of a list.
  *
  * @param list: List to append to
- * @param new: New node to append
+ * @param new_node: New node to append
  */
-void list_add(list_t *list, listnode_t *new);
+void list_add(list_t *list, listnode_t *new_node);
 
 /**
  * Remove a node from a list.
@@ -83,25 +82,25 @@ void list_del(listnode_t *node);
  * Insert a new node to the beginning of a list.
  *
  * @param list: List to insert the node into
- * @param new: New node to insert
+ * @param new_node: New node to insert
  */
-void list_add_first(list_t *list, listnode_t *new);
+void list_add_first(list_t *list, listnode_t *new_node);
 
 /**
  * Insert a new node after the specified list node.
  *
  * @param pos: List node to insert the new node after
- * @param new: Node to insert after the specified position
+ * @param new_node: Node to insert after the specified position
  */
-void list_insert(listnode_t *pos, listnode_t *new);
+void list_insert(listnode_t *pos, listnode_t *new_node);
 
 /**
  * Insert a new node before the specified list node.
  *
  * @param pos: List node to insert the new node before
- * @param new: Node to insert before the specified position
+ * @param new_node: Node to insert before the specified position
  */
-void list_insert_before(listnode_t *pos, listnode_t *new);
+void list_insert_before(listnode_t *pos, listnode_t *new_node);
 
 /**
  * Iterate over each item in a list.
@@ -113,8 +112,10 @@ void list_insert_before(listnode_t *pos, listnode_t *new);
  * @param member: Name of the `listnode_t` member embedded within `cursor`
  */
 #define list_foreach(cursor, list, member)					\
-	for (cursor = _neo_list_first(list, typeof(cursor), member)),		\
-		typeof(cursor) __tmp = _neo_list_next(cursor, member);		\
+	for (typeof(cursor) __tmp = _neo_list_next(				\
+		cursor = _neo_list_first( list, typeof(*(cursor)), member ),	\
+		member								\
+	     );									\
 	     !_neo_list_is_root(cursor, list, member);				\
 	     cursor = __tmp, __tmp = _neo_list_next(__tmp, member))
 
@@ -128,8 +129,8 @@ void list_insert_before(listnode_t *pos, listnode_t *new);
  * @param member: Name of the `listnode_t` member embedded within `cursor`
  */
 #define list_foreach_reverse(cursor, list, member)				\
-	for (cursor = _neo_list_last(list, typeof(cursor), member)),		\
-		typeof(cursor) __tmp = _neo_list_prev(cursor, member);		\
+	for (cursor = _neo_list_last( list, typeof(*(cursor)), member ),		\
+		__tmp = _neo_list_prev(cursor, member);				\
 	     !_neo_list_is_root(cursor, list, member);				\
 	     cursor = __tmp, __tmp = _neo_list_prev(__tmp, member))
 

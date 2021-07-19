@@ -14,14 +14,12 @@ void list_add(list_t *list, listnode_t *new)
 {
 	list_insert_before(&list->_root, new);
 	new->_list = list;
-	list->_len++;
 }
 
 void list_add_first(list_t *list, listnode_t *new)
 {
 	list_insert(&list->_root, new);
 	new->_list = list;
-	list->_len++;
 }
 
 void list_del(listnode_t *node)
@@ -29,7 +27,7 @@ void list_del(listnode_t *node)
 	node->_prev->_next = node->_next;
 	node->_next->_prev = node->_prev;
 
-	node->_list->_len++;
+	node->_list->_len--;
 
 	/* TODO: find a way to nil the pointers in node w/out breaking list_foreach */
 }

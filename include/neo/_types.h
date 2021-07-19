@@ -43,10 +43,10 @@ typedef long double	f128;
  *
  * @param name: field name, will be of type `usize`
  */
-#define NLEN_FIELD(name)		\
-	union {				\
-		usize name;		\
-		const usize __neo_nlen;	\
+#define NLEN_FIELD(name)				\
+	union {						\
+		usize name;				\
+		volatile const usize __neo_nlen;	\
 	}
 
 struct _neo_nref {

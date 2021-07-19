@@ -129,8 +129,10 @@ void list_insert_before(listnode_t *pos, listnode_t *new_node);
  * @param member: Name of the `listnode_t` member embedded within `cursor`
  */
 #define list_foreach_reverse(cursor, list, member)				\
-	for (cursor = _neo_list_last( list, typeof(*(cursor)), member ),		\
-		__tmp = _neo_list_prev(cursor, member);				\
+	for (typeof(cursor) __tmp = _neo_list_prev(				\
+		cursor = _neo_list_last( list, typeof(*(cursor)), member ),	\
+		member								\
+	     );									\
 	     !_neo_list_is_root(cursor, list, member);				\
 	     cursor = __tmp, __tmp = _neo_list_prev(__tmp, member))
 

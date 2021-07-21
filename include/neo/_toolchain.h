@@ -19,9 +19,7 @@
 	__neo_section(.fini_array) void (*__neo_fini_##fn)(void) = fn
 
 #ifdef __cplusplus
-#	define __restrict
-#else
-#	define __restrict restrict
+#	define restrict
 #endif
 
 /*

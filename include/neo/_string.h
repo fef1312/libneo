@@ -43,7 +43,7 @@ struct _neo_nstr_init_info {
  * @param err: Error pointer
  * @returns The converted string, unless an error occurred
  */
-string *nstr(const char *__restrict s, error *err);
+string *nstr(const char *restrict s, error *err);
 
 /**
  * Copy a regular C string to a neo string, but at most `maxsize` bytes.
@@ -57,7 +57,7 @@ string *nstr(const char *__restrict s, error *err);
  * @param err: Error pointer
  * @returns The converted string, unless an error occurred
  */
-string *nnstr(const char *__restrict s, usize maxsize, error *err);
+string *nnstr(const char *restrict s, usize maxsize, error *err);
 
 /**
  * Get the Unicode code point in a string at the specified index.

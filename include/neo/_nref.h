@@ -4,6 +4,8 @@
 
 #include "neo/_types.h"
 
+void _neo_nref_init(struct _neo_nref *ref, void (*destroy)(void *ptr), usize offset);
+
 /**
  * Initialize the reference counter in a structure.
  *
@@ -18,11 +20,10 @@
  *	only parameter and return type `void`, which will deallocate the struct
  */
 #define nref_init(ptr, destroy) ({						\
-	struct _neo_nref *__nref = &(ptr)->__neo_nref;				\
-	__nref->_offset = offsetof(typeof(*(ptr)), __neo_nref);			\
 	void (*__destroy_typechecked)(typeof(ptr)) = destroy;			\
-	__nref->_destroy = (void (*)(void *))__destroy_typechecked;		\
-	__nref->_count = 1;							\
+	_neo_nref_init(&(ptr)->__neo_nref,					\
+		       (void (*)(void *))__destroy_typechecked,			\
+		       offsetof(typeof(*(ptr)), __neo_nref));			\
 })
 
 int _neo_nget(struct _neo_nref *ref);

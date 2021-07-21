@@ -5,8 +5,10 @@
 #include "neo/_nref.h"
 #include "neo/_types.h"
 
-void _neo_nref_init(struct _neo_nref *ref)
+void _neo_nref_init(struct _neo_nref *ref, void (*destroy)(void *ptr), usize offset)
 {
+	ref->_destroy = destroy;
+	ref->_offset = offset;
 	atomic_init(&ref->_count, 1);
 }
 

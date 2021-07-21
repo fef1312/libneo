@@ -27,9 +27,9 @@ typedef long double	f128;
 
 #ifdef __cplusplus
 	/* TODO: This is probably not a good idea */
-	#define __neo_atomic_type volatile int
+#	define __neo_atomic_type volatile int
 #else
-	typedef _Bool bool;
+#	include <stdbool.h>
 #	ifdef __STDC_NO_ATOMICS__
 #		error "Atomic types are not implemented"
 #	else
@@ -63,6 +63,12 @@ struct _neo_nref {
  */
 typedef struct _neo_nref nref_t;
 #define NREF_FIELD nref_t __neo_nref
+
+struct _neo_nmut {
+	__neo_atomic_type _lock;
+};
+typedef struct _neo_nmut nmut_t;
+#define NLOCK_FIELD nmut_t __neo_nmut
 
 struct _neo_string {
 	/* The *amount of Unicode code points*, NOT amount of bytes */

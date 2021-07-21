@@ -10,13 +10,6 @@
 #	define nil ((void *)0)
 #endif
 
-#if !defined(__cplusplus) && !defined(true)
-#	define true ((bool)1)
-#endif
-#if !defined(__cplusplus) && !defined(false)
-#	define false ((bool)0)
-#endif
-
 #ifndef offsetof
 #	define offsetof(type, member) __builtin_offsetof(type, member)
 #endif

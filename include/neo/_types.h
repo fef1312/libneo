@@ -64,11 +64,15 @@ struct _neo_nref {
 typedef struct _neo_nref nref_t;
 #define NREF_FIELD nref_t __neo_nref
 
-struct _neo_nmut {
-	__neo_atomic_type _lock;
+struct _neo_nbuf {
+	NREF_FIELD;
+	NLEN_FIELD(_size);
+	u8 _data[0];
 };
-typedef struct _neo_nmut nmut_t;
-#define NLOCK_FIELD nmut_t __neo_nmut
+/**
+ * A statically sized, refcounted buffer.
+ */
+typedef struct _neo_nbuf nbuf_t;
 
 struct _neo_string {
 	/* The *amount of Unicode code points*, NOT amount of bytes */

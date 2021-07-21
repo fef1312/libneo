@@ -27,6 +27,7 @@ target_sources(neo PRIVATE
     ./error.c
     ./list.c
     ./nalloc.c
+    ./nbuf.c
     ./nref.c
 )
 

@@ -20,6 +20,7 @@ include(string/string.cmake)
 
 target_sources(neo_test PRIVATE
     list.cpp
+    nbuf.cpp
     nref.cpp
 )
 

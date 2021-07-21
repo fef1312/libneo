@@ -25,6 +25,18 @@
 	__neo_local_n < 0 ? -__neo_local_n : __neo_local_n;			\
 })
 
+#define nmax(x1, x2) ({			\
+	typeof(x1) __x1 = (x1);		\
+	typeof(x2) __x2 = (x2);		\
+	__x1 > __x2 ? __x1 : __x2;	\
+})
+
+#define nmin(x1, x2) ({			\
+	typeof(x1) __x1 = (x1);		\
+	typeof(x2) __x2 = (x2);		\
+	__x1 < __x2 ? __x1 : x2;	\
+})
+
 /**
  * Quickly get the length (as in amount of items, not bytes) of any libneo data
  * structure that supports it.  This includes strings, buffers, lists, and more.

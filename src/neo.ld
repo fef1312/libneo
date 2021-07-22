@@ -16,9 +16,10 @@ SECTIONS
 		 * referenced in this section because their length cannot be
 		 * calculated at compile time (because UTF-8).
 		 *
-		 * See nstr_init_array() in src/string/nstr.c for the
+		 * See _neo_nstr_init_array() in src/string/nstr.c for the
 		 * initialization routine.
 		 */
+		. = ALIGN(16); /* sizeof(struct _neo_nstr_init_info) @ 64 bit */
 		__neo_nstr_array_start = .;
 		KEEP(*(.data.__neo.nstr_array))
 		__neo_nstr_array_end = .;

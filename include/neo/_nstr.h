@@ -10,6 +10,9 @@
  * the `NSTR_DEFINE` macro.  This is written to a special data section that
  * is iterated over before program start; see `_neo_nstr_init_array` in
  * `src/string/nstr.c` for details.
+ *
+ * Changing this might require also changing the linker script because of
+ * alignment requirements.
  */
 struct _neo_nstr_init_info {
 	nstr_t **dest;

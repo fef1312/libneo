@@ -11,7 +11,7 @@
 #include "neo/_types.h"
 #include "neo/utf.h"
 
-nstr_t *nstrmul(const nstr_t *s, usize n, error *err)
+nstr_t *nstrmul(nstr_t *s, usize n, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");

@@ -3,17 +3,31 @@
 #include <errno.h>
 
 #include "neo/_error.h"
+#include "neo/_nalloc.h"
+#include "neo/_nref.h"
 #include "neo/_nstr.h"
 #include "neo/_types.h"
 
-nstr_t *nstrdup(const nstr_t *s, error *err)
+nstr_t *nstrdup(nstr_t *s, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
 		return nil;
 	}
 
-	return nstr(s->_data, err);
+	nstr_t *copy = nalloc(sizeof(*copy), err);
+	catch(err) {
+		return nil;
+	}
+
+	nget(s);
+
+	copy->_len = s->_len;
+	copy->_size = s->_size;
+	copy->_borrow = &s->__neo_nref;
+	copy->_data = s->_data;
+	nref_init(copy, _neo_nstr_destroy);
+	return copy;
 }
 
 /*

@@ -14,12 +14,14 @@
 #include "neo/_types.h"
 #include "neo/utf.h"
 
-static void nstr_destroy(nstr_t *str)
+void _neo_nstr_destroy(nstr_t *str)
 {
+	if (str->_borrow != nil)
+		_neo_nput(str->_borrow);
 	nfree(str);
 }
 
-static nstr_t *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
+static nstr_t *nstr_unsafe(const char *s, usize size_without_nul, error *err)
 {
 	usize len = utf8_ncheck(s, size_without_nul, err);
 	catch(err) {
@@ -49,16 +51,16 @@ static nstr_t *nstr_unsafe(const char *restrict s, usize size_without_nul, error
 	 * stored immediately after the string itself.  This also saves us an
 	 * additional memory allocation.
 	 */
-	str->_data = (char *)str + sizeof(*str);
-	str->_len = len;
-	str->_size = size_without_nul + 4;
-	nref_init(str, nstr_destroy);
+	char *data = (char *)str + sizeof(*str);
+	memcpy(data, s, size_without_nul);
+	for (unsigned int i = 0; i < 4; i++)
+		data[size_without_nul + i] = '\0';
 
-	memcpy(str->_data, s, size_without_nul);
-	str->_data[size_without_nul] = '\0';
-	str->_data[size_without_nul + 1] = '\0';
-	str->_data[size_without_nul + 2] = '\0';
-	str->_data[size_without_nul + 3] = '\0';
+	str->_data = data;
+	str->_len = len;
+	str->_borrow = nil;
+	str->_size = size_without_nul + 4;
+	nref_init(str, _neo_nstr_destroy);
 
 	return str;
 }
@@ -97,7 +99,7 @@ nchar nchrat(const nstr_t *s, usize index, error *err)
 		return '\0';
 	}
 
-	char *ptr = s->_data;
+	const char *ptr = s->_data;
 	while (index != 0)
 		index -= (*ptr++ & 0xc0) != 0x80;
 	ptr--;

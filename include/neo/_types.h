@@ -80,7 +80,12 @@ struct _neo_nstr {
 	NREF_FIELD;
 	/* physical size in bytes, including the four NUL terminators */
 	usize _size;
-	char *_data;
+	/**
+	 * If this string was cloned or converted from a buffer, this points to
+	 * the original structure's refcounter.  Otherwise, it is nil.
+	 */
+	nref_t *_borrow;
+	const char *_data;
 };
 typedef struct _neo_nstr nstr_t;
 

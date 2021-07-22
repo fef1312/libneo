@@ -109,7 +109,7 @@ nstr_t *u2nstr(u64 u, int radix, error *err);
  * @param err: Error pointer
  * @returns The duplicated string, unless an error occurred
  */
-nstr_t *nstrdup(const nstr_t *s, error *err);
+nstr_t *nstrdup(nstr_t *s, error *err);
 
 /**
  * Repeat a string `n` times and return the new string.
@@ -123,7 +123,7 @@ nstr_t *nstrdup(const nstr_t *s, error *err);
  * @param err: Error pointer
  * @returns A new string with the repeated content, unless an error occurred
  */
-nstr_t *nstrmul(const nstr_t *s, usize n, error *err);
+nstr_t *nstrmul(nstr_t *s, usize n, error *err);
 
 /**
  * Create a string considting of `n` repetitions of `c`.
@@ -204,6 +204,9 @@ nstr_t *leftpad(const nstr_t *s, usize length, nchar fill, error *err);
 	     /* errput sets the error number to 0xffffffff, thus number + 1 */	\
 	     *__pos != '\0' && (err) != nil && (err)->_number + 1 < 2;		\
 	     __pos += utf8_to_nchr(cursor, __pos, err))
+
+/** Internal callback for nref */
+void _neo_nstr_destroy(nstr_t *s);
 
 /*
  * This file is part of libneo.

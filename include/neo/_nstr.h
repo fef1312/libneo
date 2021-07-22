@@ -21,7 +21,7 @@ struct _neo_nstr_init_info {
  *
  * The string will be initialized before `main` is called.
  *
- * @param name: Name of the `string *` variable to be declared
+ * @param name: Name of the `nstr_t *` variable to be declared
  * @param content: A `const char *` with the contents of the string
  */
 #define NSTR_DEFINE(name, content)						\
@@ -166,8 +166,8 @@ int nstrcmp(const nstr_t *s1, const nstr_t *s2, error *err);
  * If either of the two string are `nil` or acquiring a lock on them fails,
  * an error is yeeted.
  *
- * @param s1: First `string *`
- * @param s2: Second `string *`
+ * @param s1: First `nstr_t *`
+ * @param s2: Second `nstr_t *`
  * @param err: Error pointer
  * @returns Whether the two strings are equal, unless an error occurred
  */
@@ -190,17 +190,17 @@ nstr_t *leftpad(const nstr_t *s, usize length, nchar fill, error *err);
 /**
  * Iterate over each character in a string.
  *
- * @param nstr: `string *` to iterate over
- * @param nchr: `nchar *` to store the current character in
+ * @param cursor: `nchar *` to store the current character in
+ * @param nstr: `nstr_t *` to iterate over
  * @param err: Error pointer; the loop will terminate early if an uncaught
  *	error occurred
  */
-#define nstr_foreach_nchr(nstr, nchr, err)					\
+#define nstr_foreach(cursor, nstr, err)						\
 	for (const char *__pos =						\
-	         (nstr)->_data + utf8_to_nchr(nchr, (nstr)->_data, err);	\
-	     *__pos != '\0' && (err) != nil &&					\
-		 (err)->_number + 1 < 2;					\
-	     __pos += utf8_to_nchr(nchr, __pos, err))
+	         (nstr)->_data + utf8_to_nchr(cursor, (nstr)->_data, err);	\
+	     /* errput sets the error number to 0xffffffff, thus number + 1 */	\
+	     *__pos != '\0' && (err) != nil && (err)->_number + 1 < 2;		\
+	     __pos += utf8_to_nchr(cursor, __pos, err))
 
 /*
  * This file is part of libneo.

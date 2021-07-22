@@ -16,18 +16,12 @@
 
 static void nstr_destroy(nstr_t *str)
 {
-	nfree(str->_data);
 	nfree(str);
 }
 
 static nstr_t *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
 {
 	usize len = utf8_ncheck(s, size_without_nul, err);
-	catch(err) {
-		return nil;
-	}
-
-	nstr_t *str = nalloc(sizeof(*str), err);
 	catch(err) {
 		return nil;
 	}
@@ -45,12 +39,17 @@ static nstr_t *nstr_unsafe(const char *restrict s, usize size_without_nul, error
 	 * Yeah, this is definitely never gonna break my legs.
 	 */
 
-	str->_data = nalloc(size_without_nul + 4, err);
+	nstr_t *str = nalloc(sizeof(*str) + size_without_nul + 4, err);
 	catch(err) {
-		nfree(str);
 		return nil;
 	}
 
+	/*
+	 * To improve locality and lower fragmentation, the actual data is
+	 * stored immediately after the string itself.  This also saves us an
+	 * additional memory allocation.
+	 */
+	str->_data = (char *)str + sizeof(*str);
 	str->_len = len;
 	str->_size = size_without_nul + 4;
 	nref_init(str, nstr_destroy);

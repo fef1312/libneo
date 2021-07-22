@@ -3,10 +3,10 @@
 #include <errno.h>
 
 #include "neo/_error.h"
-#include "neo/_string.h"
+#include "neo/_nstr.h"
 #include "neo/_types.h"
 
-string *nstrdup(const string *s, error *err)
+nstr_t *nstrdup(const nstr_t *s, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");

@@ -18,7 +18,7 @@
  *	the values to insert which will become the error message.
  */
 __attribute__(( __format__(printf, 3, 4) ))
-void yeet(error *err, u32 number, const char *__restrict fmt, ...);
+void yeet(error *err, u32 number, const char *restrict fmt, ...);
 
 /**
  * Indicate an operation has completed successfully.
@@ -62,7 +62,7 @@ void errput(error *err);
  * Get an optional error message, this may be `nil`
  * Must only be used within a catch block and before `errput` is called.
  */
-#define errmsg(err) ((err) == nil ? (string *)nil : (err)->_message)
+#define errmsg(err) ((err) == nil ? (nstr_t *)nil : (err)->_message)
 
 /*
  * This file is part of libneo.

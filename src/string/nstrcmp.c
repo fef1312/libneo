@@ -5,11 +5,11 @@
 
 #include "neo/_error.h"
 #include "neo/_nref.h"
+#include "neo/_nstr.h"
 #include "neo/_stddef.h"
-#include "neo/_string.h"
 #include "neo/_types.h"
 
-int nstrcmp(const string *s1, const string *s2, error *err)
+int nstrcmp(const nstr_t *s1, const nstr_t *s2, error *err)
 {
 	/*
 	 * Return values are always undefined if an error was yeeted so it's not

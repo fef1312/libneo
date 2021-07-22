@@ -74,7 +74,7 @@ struct _neo_nbuf {
  */
 typedef struct _neo_nbuf nbuf_t;
 
-struct _neo_string {
+struct _neo_nstr {
 	/* The *amount of Unicode code points*, NOT amount of bytes */
 	NLEN_FIELD(_len);
 	NREF_FIELD;
@@ -82,10 +82,10 @@ struct _neo_string {
 	usize _size;
 	char *_data;
 };
-typedef struct _neo_string string;
+typedef struct _neo_nstr nstr_t;
 
 struct _neo_error {
-	string *_message;
+	nstr_t *_message;
 	u32 _number;
 };
 typedef struct _neo_error error;

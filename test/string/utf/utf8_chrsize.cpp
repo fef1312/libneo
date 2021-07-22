@@ -51,8 +51,8 @@ TEST_CASE( "utf8_chrsize: Error if out of Unicode range", "[string/utf.c]" )
 	/* Unicode range is 0x00~0x10ffff */
 	usize size = utf8_chrsize(0x110000, &err);
 
-	string *expected = nstr("Character code not within Unicode range", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Character code not within Unicode range", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( size == 0 );
 	REQUIRE( errnum(&err) == EINVAL );

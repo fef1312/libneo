@@ -13,9 +13,9 @@ extern "C" {
 #include "neo/_error.h"
 #include "neo/_nbuf.h"
 #include "neo/_nref.h"
+#include "neo/_nstr.h"
 #include "neo/_types.h"
 #include "neo/_stddef.h"
-#include "neo/_string.h"
 #include "neo/_nalloc.h"
 
 #ifdef __cplusplus

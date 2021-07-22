@@ -12,7 +12,7 @@
  * `src/string/nstr.c` for details.
  */
 struct _neo_nstr_init_info {
-	string **dest;
+	nstr_t **dest;
 	const char *data;
 };
 
@@ -25,7 +25,7 @@ struct _neo_nstr_init_info {
  * @param content: A `const char *` with the contents of the string
  */
 #define NSTR_DEFINE(name, content)						\
-	string *name = nil;							\
+	nstr_t *name = nil;							\
 	__neo_section(.data.__neo.nstr_array)					\
 	struct _neo_nstr_init_info __neo_nstr_init_info_##name = {		\
 		.dest = &name,							\
@@ -43,7 +43,7 @@ struct _neo_nstr_init_info {
  * @param err: Error pointer
  * @returns The converted string, unless an error occurred
  */
-string *nstr(const char *restrict s, error *err);
+nstr_t *nstr(const char *restrict s, error *err);
 
 /**
  * Copy a regular C string to a neo string, but at most `maxsize` bytes.
@@ -57,7 +57,7 @@ string *nstr(const char *restrict s, error *err);
  * @param err: Error pointer
  * @returns The converted string, unless an error occurred
  */
-string *nnstr(const char *restrict s, usize maxsize, error *err);
+nstr_t *nnstr(const char *restrict s, usize maxsize, error *err);
 
 /**
  * Get the Unicode code point in a string at the specified index.
@@ -70,7 +70,7 @@ string *nnstr(const char *restrict s, usize maxsize, error *err);
  * @returns The Unicode code point at the specified index,
  *	unless an error occurred
  */
-nchar nchrat(const string *s, usize index, error *err);
+nchar nchrat(const nstr_t *s, usize index, error *err);
 
 /**
  * Convert a signed integer to a string.
@@ -82,7 +82,7 @@ nchar nchrat(const string *s, usize index, error *err);
  * @param err: Error pointer
  * @returns The stringified integer, unless an error occurred
  */
-string *i2nstr(i64 i, int radix, error *err);
+nstr_t *i2nstr(i64 i, int radix, error *err);
 
 /**
  * Convert an unsigned integer to a string.
@@ -94,7 +94,7 @@ string *i2nstr(i64 i, int radix, error *err);
  * @param err: Error pointer
  * @returns The stringified integer, unless an error occurred
  */
-string *u2nstr(u64 u, int radix, error *err);
+nstr_t *u2nstr(u64 u, int radix, error *err);
 
 /**
  * Duplicate a string.
@@ -106,7 +106,7 @@ string *u2nstr(u64 u, int radix, error *err);
  * @param err: Error pointer
  * @returns The duplicated string, unless an error occurred
  */
-string *nstrdup(const string *s, error *err);
+nstr_t *nstrdup(const nstr_t *s, error *err);
 
 /**
  * Repeat a string `n` times and return the new string.
@@ -120,7 +120,7 @@ string *nstrdup(const string *s, error *err);
  * @param err: Error pointer
  * @returns A new string with the repeated content, unless an error occurred
  */
-string *nstrmul(const string *s, usize n, error *err);
+nstr_t *nstrmul(const nstr_t *s, usize n, error *err);
 
 /**
  * Create a string considting of `n` repetitions of `c`.
@@ -133,7 +133,7 @@ string *nstrmul(const string *s, usize n, error *err);
  * @param err: Error pointer
  * @returns The string, unless an error occurred
  */
-string *nchrmul(nchar c, usize n, error *err);
+nstr_t *nchrmul(nchar c, usize n, error *err);
 
 /**
  * Concatenate two strings and return the result.
@@ -147,7 +147,7 @@ string *nchrmul(nchar c, usize n, error *err);
  * @returns A new string instance that consists of the two concatenated ones,
  *	unless an error occurred
  */
-string *nstrcat(const string *s1, const string *s2, error *err);
+nstr_t *nstrcat(const nstr_t *s1, const nstr_t *s2, error *err);
 
 /**
  * Compare two strings character by character.
@@ -159,7 +159,7 @@ string *nstrcat(const string *s1, const string *s2, error *err);
  * @param err: Error pointer
  * @returns The difference between the two strings, unless an error occurred
  */
-int nstrcmp(const string *s1, const string *s2, error *err);
+int nstrcmp(const nstr_t *s1, const nstr_t *s2, error *err);
 
 /**
  * Determine whether two strings are exactly equal.
@@ -185,7 +185,7 @@ int nstrcmp(const string *s1, const string *s2, error *err);
  * @param err: Error pointer
  * @returns The new padded string
  */
-string *leftpad(const string *s, usize length, nchar fill, error *err);
+nstr_t *leftpad(const nstr_t *s, usize length, nchar fill, error *err);
 
 /**
  * Iterate over each character in a string.

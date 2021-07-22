@@ -3,7 +3,7 @@
 #include <errno.h>
 
 #include "neo/_error.h"
-#include "neo/_string.h"
+#include "neo/_nstr.h"
 #include "neo/_types.h"
 
 static char *unsigned_convert(char *end, u64 n, int radix, error *err)
@@ -31,7 +31,7 @@ static char *unsigned_convert(char *end, u64 n, int radix, error *err)
 	return end;
 }
 
-string *u2nstr(u64 n, int radix, error *err)
+nstr_t *u2nstr(u64 n, int radix, error *err)
 {
 	char buf[65];
 	char *s = unsigned_convert(&buf[64], n, radix, err);
@@ -41,7 +41,7 @@ string *u2nstr(u64 n, int radix, error *err)
 	return nstr(s, err);
 }
 
-string *i2nstr(i64 n, int radix, error *err)
+nstr_t *i2nstr(i64 n, int radix, error *err)
 {
 	char buf[66];
 

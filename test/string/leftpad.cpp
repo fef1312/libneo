@@ -8,10 +8,10 @@
 TEST_CASE( "leftpad: Pad a string with ASCII character", "[string/leftpad.c]" )
 {
 	error err;
-	string *s = nstr("i'm gay,,,", nil);
+	nstr_t *s = nstr("i'm gay,,,", nil);
 
-	string *expected = nstr(",,,i'm gay,,,", nil);
-	string *actual = leftpad(s, 13, ',', &err);
+	nstr_t *expected = nstr(",,,i'm gay,,,", nil);
+	nstr_t *actual = leftpad(s, 13, ',', &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 13 );
@@ -26,10 +26,10 @@ TEST_CASE( "leftpad: Pad a string with ASCII character", "[string/leftpad.c]" )
 TEST_CASE( "leftpad: Pad a string with UTF-8 character", "[string/leftpad.c]" )
 {
 	error err;
-	string *s = nstr("i'm gay,,,", nil);
+	nstr_t *s = nstr("i'm gay,,,", nil);
 
-	string *expected = nstr("\xf0\x9f\xa5\xba\xf0\x9f\xa5\xbai'm gay,,,", nil);
-	string *actual = leftpad(s, 12, 0x01f97a, &err);
+	nstr_t *expected = nstr("\xf0\x9f\xa5\xba\xf0\x9f\xa5\xbai'm gay,,,", nil);
+	nstr_t *actual = leftpad(s, 12, 0x01f97a, &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 12 );
@@ -44,9 +44,9 @@ TEST_CASE( "leftpad: Pad a string with UTF-8 character", "[string/leftpad.c]" )
 TEST_CASE( "leftpad: Duplicate if string is expected length", "[string/leftpad.c]" )
 {
 	error err;
-	string *s = nstr("i'm gay,,,", nil);
+	nstr_t *s = nstr("i'm gay,,,", nil);
 
-	string *padded = leftpad(s, 10, ',', &err);
+	nstr_t *padded = leftpad(s, 10, ',', &err);
 
 	REQUIRE( padded != nil );
 	REQUIRE( nlen(padded) == 10 );
@@ -60,9 +60,9 @@ TEST_CASE( "leftpad: Duplicate if string is expected length", "[string/leftpad.c
 TEST_CASE( "leftpad: Error if string is nil", "[string/leftpad.c]" )
 {
 	error err;
-	string *s = leftpad(nil, 10, ',', &err);
+	nstr_t *s = leftpad(nil, 10, ',', &err);
 
-	string *expected_msg = nstr("String is nil", nil);
+	nstr_t *expected_msg = nstr("String is nil", nil);
 
 	REQUIRE( s == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -75,10 +75,10 @@ TEST_CASE( "leftpad: Error if string is nil", "[string/leftpad.c]" )
 TEST_CASE( "leftpad: Error if string is too long", "[string/leftpad.c]" )
 {
 	error err;
-	string *s = nstr("i'm gay,,,", nil);
-	string *padded = leftpad(s, 9, ',', &err);
+	nstr_t *s = nstr("i'm gay,,,", nil);
+	nstr_t *padded = leftpad(s, 9, ',', &err);
 
-	string *expected_msg = nstr("String is longer than requested length", nil);
+	nstr_t *expected_msg = nstr("String is longer than requested length", nil);
 
 	REQUIRE( padded == nil );
 	REQUIRE( errnum(&err) == ERANGE );

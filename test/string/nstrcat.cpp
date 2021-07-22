@@ -8,10 +8,10 @@
 TEST_CASE( "nstrcat: Concatenate two strings", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("i'm ", nil);
-	string *s2 = nstr("gay,,,", nil);
-	string *expected = nstr("i'm gay,,,", nil);
-	string *actual = nstrcat(s1, s2, &err);
+	nstr_t *s1 = nstr("i'm ", nil);
+	nstr_t *s2 = nstr("gay,,,", nil);
+	nstr_t *expected = nstr("i'm gay,,,", nil);
+	nstr_t *actual = nstrcat(s1, s2, &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 10 );
@@ -27,10 +27,10 @@ TEST_CASE( "nstrcat: Concatenate two strings", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcat: Concatenate two UTF-8 strings", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("i'm ", nil);
-	string *s2 = nstr("gay\xf0\x9f\xa5\xba,,,", nil);
-	string *expected = nstr("i'm gay\xf0\x9f\xa5\xba,,,", nil);
-	string *actual = nstrcat(s1, s2, &err);
+	nstr_t *s1 = nstr("i'm ", nil);
+	nstr_t *s2 = nstr("gay\xf0\x9f\xa5\xba,,,", nil);
+	nstr_t *expected = nstr("i'm gay\xf0\x9f\xa5\xba,,,", nil);
+	nstr_t *actual = nstrcat(s1, s2, &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 11 );
@@ -46,10 +46,10 @@ TEST_CASE( "nstrcat: Concatenate two UTF-8 strings", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcat: Concatenate two empty strings", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("", nil);
-	string *s2 = nstr("", nil);
-	string *expected = nstr("", nil);
-	string *actual = nstrcat(s1, s2, &err);
+	nstr_t *s1 = nstr("", nil);
+	nstr_t *s2 = nstr("", nil);
+	nstr_t *expected = nstr("", nil);
+	nstr_t *actual = nstrcat(s1, s2, &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 0 );
@@ -65,11 +65,11 @@ TEST_CASE( "nstrcat: Concatenate two empty strings", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcat: Error if first string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s2 = nstr("", nil);
-	string *cat = nstrcat(nil, s2, &err);
+	nstr_t *s2 = nstr("", nil);
+	nstr_t *cat = nstrcat(nil, s2, &err);
 
-	string *expected_msg = nstr("First string is nil", nil);
-	string *actual_msg = errmsg(&err);
+	nstr_t *expected_msg = nstr("First string is nil", nil);
+	nstr_t *actual_msg = errmsg(&err);
 
 	REQUIRE( cat == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -83,11 +83,11 @@ TEST_CASE( "nstrcat: Error if first string is nil", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcat: Error if second string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("", nil);
-	string *cat = nstrcat(s1, nil, &err);
+	nstr_t *s1 = nstr("", nil);
+	nstr_t *cat = nstrcat(s1, nil, &err);
 
-	string *expected_msg = nstr("Second string is nil", nil);
-	string *actual_msg = errmsg(&err);
+	nstr_t *expected_msg = nstr("Second string is nil", nil);
+	nstr_t *actual_msg = errmsg(&err);
 
 	REQUIRE( cat == nil );
 	REQUIRE( errnum(&err) == EFAULT );

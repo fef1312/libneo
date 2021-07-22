@@ -76,8 +76,8 @@ TEST_CASE( "utf8_from_nchr: Error if out of Unicode range", "[string/utf.c]" )
 	/* Unicode range is 0x00~0x10ffff */
 	usize size = utf8_from_nchr(&buf[0], 0x110000, &err);
 
-	string *expected = nstr("Character code not within Unicode range", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Character code not within Unicode range", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( buf[0] == '\0' );
 	REQUIRE( buf[1] == '\xff' );

@@ -8,10 +8,10 @@
 TEST_CASE( "nstrmul: Repeat a string", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s = nstr("aaaaa", nil);
+	nstr_t *s = nstr("aaaaa", nil);
 
-	string *expected = nstr("aaaaaaaaaaaaaaa", nil);
-	string *actual = nstrmul(s, 3, &err);
+	nstr_t *expected = nstr("aaaaaaaaaaaaaaa", nil);
+	nstr_t *actual = nstrmul(s, 3, &err);
 
 	REQUIRE( actual != nil );
 	REQUIRE( nlen(actual) == 5 * 3 );
@@ -26,9 +26,9 @@ TEST_CASE( "nstrmul: Repeat a string", "[string/nstrcat.c]" )
 TEST_CASE( "nstrmul: Duplicate a string if count is 1", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s = nstr("aaaaa", nil);
+	nstr_t *s = nstr("aaaaa", nil);
 
-	string *mul = nstrmul(s, 1, &err);
+	nstr_t *mul = nstrmul(s, 1, &err);
 
 	REQUIRE( nul != nil );
 	REQUIRE( nlen(mul) == 5 );
@@ -42,9 +42,9 @@ TEST_CASE( "nstrmul: Duplicate a string if count is 1", "[string/nstrcat.c]" )
 TEST_CASE( "nstrmul: Error if string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *mul = nstrmul(nil, 1, &err);
+	nstr_t *mul = nstrmul(nil, 1, &err);
 
-	string *expected_msg = nstr("String is nil", nil);
+	nstr_t *expected_msg = nstr("String is nil", nil);
 
 	REQUIRE( mul == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -56,10 +56,10 @@ TEST_CASE( "nstrmul: Error if string is nil", "[string/nstrcat.c]" )
 TEST_CASE( "nstrmul: Return empty string if count is 0", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s = nstr("aaaaa", nil);
-	string *mul = nstrmul(s, 0, &err);
+	nstr_t *s = nstr("aaaaa", nil);
+	nstr_t *mul = nstrmul(s, 0, &err);
 
-	string *expected_msg = nstr("String is nil", nil);
+	nstr_t *expected_msg = nstr("String is nil", nil);
 
 	REQUIRE( mul == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -71,9 +71,9 @@ TEST_CASE( "nstrmul: Return empty string if count is 0", "[string/nstrcat.c]" )
 TEST_CASE( "nstrmul: Error if string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *mul = nstrmul(nil, 3, &err);
+	nstr_t *mul = nstrmul(nil, 3, &err);
 
-	string *expected_msg = nstr("String is nil", nil);
+	nstr_t *expected_msg = nstr("String is nil", nil);
 
 	REQUIRE( mul == nil );
 	REQUIRE( errnum(&err) == EFAULT );

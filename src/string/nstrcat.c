@@ -9,11 +9,11 @@
 #include "neo/_error.h"
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
+#include "neo/_nstr.h"
 #include "neo/_stddef.h"
-#include "neo/_string.h"
 #include "neo/_types.h"
 
-string *nstrcat(const string *s1, const string *s2, error *err)
+nstr_t *nstrcat(const nstr_t *s1, const nstr_t *s2, error *err)
 {
 	if (s1 == nil) {
 		yeet(err, EFAULT, "First string is nil");
@@ -36,7 +36,7 @@ string *nstrcat(const string *s1, const string *s2, error *err)
 	memcpy(cat + s1_size_without_nul, s2->_data, s2_size_without_nul);
 	cat[s1_size_without_nul + s2_size_without_nul] = '\0';
 
-	string *ret = nstr(cat, err);
+	nstr_t *ret = nstr(cat, err);
 	nfree(cat);
 	return ret;
 }

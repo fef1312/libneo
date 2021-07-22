@@ -9,25 +9,25 @@
 #include "neo/_error.h"
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
-#include "neo/_string.h"
+#include "neo/_nstr.h"
 #include "neo/_toolchain.h"
 #include "neo/_types.h"
 #include "neo/utf.h"
 
-static void nstr_destroy(string *str)
+static void nstr_destroy(nstr_t *str)
 {
 	nfree(str->_data);
 	nfree(str);
 }
 
-static string *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
+static nstr_t *nstr_unsafe(const char *restrict s, usize size_without_nul, error *err)
 {
 	usize len = utf8_ncheck(s, size_without_nul, err);
 	catch(err) {
 		return nil;
 	}
 
-	string *str = nalloc(sizeof(*str), err);
+	nstr_t *str = nalloc(sizeof(*str), err);
 	catch(err) {
 		return nil;
 	}
@@ -64,7 +64,7 @@ static string *nstr_unsafe(const char *restrict s, usize size_without_nul, error
 	return str;
 }
 
-string *nstr(const char *restrict s, error *err)
+nstr_t *nstr(const char *restrict s, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
@@ -75,7 +75,7 @@ string *nstr(const char *restrict s, error *err)
 	return nstr_unsafe(s, size_without_nul, err);
 }
 
-string *nnstr(const char *restrict s, usize maxsize, error *err)
+nstr_t *nnstr(const char *restrict s, usize maxsize, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
@@ -86,7 +86,7 @@ string *nnstr(const char *restrict s, usize maxsize, error *err)
 	return nstr_unsafe(s, size_without_nul, err);
 }
 
-nchar nchrat(const string *s, usize index, error *err)
+nchar nchrat(const nstr_t *s, usize index, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");

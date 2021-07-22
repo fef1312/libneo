@@ -20,7 +20,7 @@ TEST_CASE( "nbuf_create: Error if size is 0", "[src/nbuf.c]" )
 {
 	error err;
 	nbuf_t *buf = nbuf_create(0, &err);
-	string *expected_msg = nstr("Cannot create zero-size buffer", nil);
+	nstr_t *expected_msg = nstr("Cannot create zero-size buffer", nil);
 
 	REQUIRE( buf == nil );
 	REQUIRE( errnum(&err) == ERANGE );
@@ -49,7 +49,7 @@ TEST_CASE( "nbuf_from: Error if data is nil", "[src/nbuf.c]" )
 	error err;
 	nbuf_t *buf = nbuf_from(nil, 1, &err);
 
-	string *expected_msg = nstr("Data is nil", nil);
+	nstr_t *expected_msg = nstr("Data is nil", nil);
 
 	REQUIRE( buf == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -65,7 +65,7 @@ TEST_CASE( "nbuf_from: Error if size is 0", "[src/nbuf.c]" )
 	const char *data = "i'm gay,,,";
 	nbuf_t *buf = nbuf_from(data, 0, &err);
 
-	string *expected_msg = nstr("Cannot create zero-size buffer", nil);
+	nstr_t *expected_msg = nstr("Cannot create zero-size buffer", nil);
 
 	REQUIRE( buf == nil );
 	REQUIRE( errnum(&err) == ERANGE );
@@ -98,7 +98,7 @@ TEST_CASE( "nbuf_clone: Error if original buffer is nil", "[src/nbuf.c]" )
 	error err;
 	nbuf_t *buf = nbuf_clone(nil, &err);
 
-	string *expected_msg = nstr("Source buffer is nil", nil);
+	nstr_t *expected_msg = nstr("Source buffer is nil", nil);
 
 	REQUIRE( buf == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -171,7 +171,7 @@ TEST_CASE( "nbuf_cmp: Error if first buffer is nil", "[src/nbuf.c]" )
 	nbuf_t *buf2 = nbuf_from(data, size, nil);
 	int diff = nbuf_cmp(nil, buf2, &err);
 
-	string *expected_msg = nstr("First buffer is nil", nil);
+	nstr_t *expected_msg = nstr("First buffer is nil", nil);
 
 	REQUIRE( diff < 0 );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -190,7 +190,7 @@ TEST_CASE( "nbuf_cmp: Error if second buffer is nil", "[src/nbuf.c]" )
 	nbuf_t *buf1 = nbuf_from(data, size, nil);
 	int diff = nbuf_cmp(buf1, nil, &err);
 
-	string *expected_msg = nstr("Second buffer is nil", nil);
+	nstr_t *expected_msg = nstr("Second buffer is nil", nil);
 
 	REQUIRE( diff > 0 );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -206,7 +206,7 @@ TEST_CASE( "nbuf_cmp: Error if both buffers are nil", "[src/nbuf.c]" )
 
 	int diff = nbuf_cmp(nil, nil, &err);
 
-	string *expected_msg = nstr("First buffer is nil", nil);
+	nstr_t *expected_msg = nstr("First buffer is nil", nil);
 
 	REQUIRE( diff == 0 );
 	REQUIRE( errnum(&err) == EFAULT );

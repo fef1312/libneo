@@ -6,12 +6,12 @@
 #include "neo/_error.h"
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
+#include "neo/_nstr.h"
 #include "neo/_stddef.h"
-#include "neo/_string.h"
 #include "neo/_types.h"
 #include "neo/utf.h"
 
-string *nstrmul(const string *s, usize n, error *err)
+nstr_t *nstrmul(const nstr_t *s, usize n, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
@@ -34,12 +34,12 @@ string *nstrmul(const string *s, usize n, error *err)
 		pos += s_size;
 	}
 
-	string *ret = nstr(multiplied, err);
+	nstr_t *ret = nstr(multiplied, err);
 	nfree(multiplied);
 	return ret;
 }
 
-string *nchrmul(nchar c, usize n, error *err)
+nstr_t *nchrmul(nchar c, usize n, error *err)
 {
 	if (n == 0)
 		return nstr("", err);
@@ -61,7 +61,7 @@ string *nchrmul(nchar c, usize n, error *err)
 		pos += s_size;
 	}
 
-	string *ret = nstr(multiplied, err);
+	nstr_t *ret = nstr(multiplied, err);
 	nfree(multiplied);
 	return ret;
 }

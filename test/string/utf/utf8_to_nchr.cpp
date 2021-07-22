@@ -63,8 +63,8 @@ TEST_CASE( "utf8_to_nchr: Error on malformed sequence start", "[string/utf.c]" )
 	nchar c;
 	utf8_to_nchr(&c, "\xff", &err);
 
-	string *expected = nstr("Illegal UTF-8 sequence start byte: 0xff", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Illegal UTF-8 sequence start byte: 0xff", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( c == '\0' );
 	REQUIRE( errnum(&err) == EINVAL );
@@ -78,8 +78,8 @@ TEST_CASE( "utf8_to_nchr: Error on wrong second byte", "[string/utf.c]" )
 	nchar c;
 	utf8_to_nchr(&c, "\xce\xff", &err);
 
-	string *expected = nstr("Byte 2 in UTF-8 sequence invalid: 0xff", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Byte 2 in UTF-8 sequence invalid: 0xff", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( c == '\0' );
 	REQUIRE( errnum(&err) == EINVAL );
@@ -93,8 +93,8 @@ TEST_CASE( "utf8_to_nchr: Error on wrong third byte", "[string/utf.c]" )
 	nchar c;
 	utf8_to_nchr(&c, "\xe3\x81\xff", &err);
 
-	string *expected = nstr("Byte 3 in UTF-8 sequence invalid: 0xff", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Byte 3 in UTF-8 sequence invalid: 0xff", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( c == '\0' );
 	REQUIRE( errnum(&err) == EINVAL );
@@ -108,8 +108,8 @@ TEST_CASE( "utf8_to_nchr: Error on wrong fourth byte", "[string/utf.c]" )
 	nchar c;
 	utf8_to_nchr(&c, "\xf0\x9f\xa5\xff", &err);
 
-	string *expected = nstr("Byte 4 in UTF-8 sequence invalid: 0xff", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Byte 4 in UTF-8 sequence invalid: 0xff", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( c == '\0' );
 	REQUIRE( errnum(&err) == EINVAL );
@@ -123,8 +123,8 @@ TEST_CASE( "utf8_to_nchr: Error on non canonical encoding", "[string/utf.c]" )
 	nchar c;
 	utf8_to_nchr(&c, "\xf0\x80\x80\xa0", &err);
 
-	string *expected = nstr("Non canonical UTF-8 encoding: 1 byte character stored in 4 bytes", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("Non canonical UTF-8 encoding: 1 byte character stored in 4 bytes", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( c == '\0' );
 	REQUIRE( errnum(&err) == EINVAL );

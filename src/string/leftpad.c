@@ -6,11 +6,11 @@
 #include "neo/_error.h"
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
-#include "neo/_string.h"
+#include "neo/_nstr.h"
 #include "neo/_types.h"
 #include "neo/utf.h"
 
-static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, error *err)
+static inline nstr_t *leftpad_unsafe(const nstr_t *s, usize len, nchar fillchr, error *err)
 {
 	char utf8_fillchr[5];
 	usize fillchr_size = utf8_from_nchr(&utf8_fillchr[0], fillchr, err);
@@ -39,7 +39,7 @@ static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, 
 	}
 	strcpy(pos, s->_data);
 
-	string *padded = nstr(dest, err);
+	nstr_t *padded = nstr(dest, err);
 	catch(err) {
 		padded = nil;
 	}
@@ -47,14 +47,14 @@ static inline string *leftpad_unsafe(const string *s, usize len, nchar fillchr, 
 	return padded;
 }
 
-string *leftpad(const string *s, usize len, nchar fillchr, error *err)
+nstr_t *leftpad(const nstr_t *s, usize len, nchar fillchr, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");
 		return 0;
 	}
 
-	string *padded;
+	nstr_t *padded;
 
 	if (len < nlen(s)) {
 		yeet(err, ERANGE, "String is longer than requested length");

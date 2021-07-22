@@ -8,7 +8,7 @@
 TEST_CASE( "nstr: Create a string", "[string/nstr.c]" )
 {
 	error err;
-	string *s = nstr("i'm gay,,,", &err);
+	nstr_t *s = nstr("i'm gay,,,", &err);
 
 	REQUIRE( s != nil );
 	REQUIRE( nlen(s) == 10 );
@@ -21,10 +21,10 @@ TEST_CASE( "nstr: Create a string", "[string/nstr.c]" )
 TEST_CASE( "nstr: Error if raw strig is nil", "[string/nstr,c]")
 {
 	error err;
-	string *s = nstr(nil, &err);
+	nstr_t *s = nstr(nil, &err);
 
-	string *expected = nstr("String is nil", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("String is nil", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( s == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -36,7 +36,7 @@ TEST_CASE( "nnstr: Create a string", "[string/nstr.c]" )
 {
 	error err;
 	/* 10 character string, must be truncated */
-	string *s = nnstr("i'm gay,,,", 8, &err);
+	nstr_t *s = nnstr("i'm gay,,,", 8, &err);
 
 	REQUIRE( s != nil );
 	REQUIRE( nlen(s) == 8 );
@@ -49,10 +49,10 @@ TEST_CASE( "nnstr: Create a string", "[string/nstr.c]" )
 TEST_CASE( "nnstr: Error if raw strig is nil", "[string/nstr,c]")
 {
 	error err;
-	string *s = nnstr(nil, 10, &err);
+	nstr_t *s = nnstr(nil, 10, &err);
 
-	string *expected = nstr("String is nil", nil);
-	string *actual = errmsg(&err);
+	nstr_t *expected = nstr("String is nil", nil);
+	nstr_t *actual = errmsg(&err);
 
 	REQUIRE( s == nil );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -64,7 +64,7 @@ NSTR_DEFINE(static_test_string_1, "i'm gay,,,");
 
 TEST_CASE( "_neo_nstr_init_array: Statically initialize ASCII string", "[string/nstr.c]" )
 {
-	string *expected_s1 = nstr("i'm gay,,,", nil);
+	nstr_t *expected_s1 = nstr("i'm gay,,,", nil);
 
 	REQUIRE( nstreq(expected_s1, static_test_string_1, nil) );
 	REQUIRE( nlen(static_test_string_1) == 10 );
@@ -74,7 +74,7 @@ NSTR_DEFINE(static_test_string_2, "i'm gay\xf0\x9f\xa5\xba,,,");
 
 TEST_CASE( "_neo_nstr_init_array: Statically initialize UTF-8 string", "[string/nstr.c]" )
 {
-	string *expected_s2 = nstr("i'm gay\xf0\x9f\xa5\xba,,,", nil);
+	nstr_t *expected_s2 = nstr("i'm gay\xf0\x9f\xa5\xba,,,", nil);
 
 	REQUIRE( nstreq(expected_s2, static_test_string_2, nil) );
 	REQUIRE( nlen(static_test_string_2) == 11 );

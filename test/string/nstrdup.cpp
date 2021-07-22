@@ -8,8 +8,8 @@
 TEST_CASE( "nstrdup: Duplicate a string", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s = nstr("aaaaa", nil);
-	string *dup = nstrdup(s, &err);
+	nstr_t *s = nstr("aaaaa", nil);
+	nstr_t *dup = nstrdup(s, &err);
 
 	REQUIRE( dup != nil );
 	REQUIRE( dup != s );
@@ -23,9 +23,9 @@ TEST_CASE( "nstrdup: Duplicate a string", "[string/nstrcat.c]" )
 TEST_CASE( "nstrdup: Error if string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *dup = nstrdup(nil, &err);
+	nstr_t *dup = nstrdup(nil, &err);
 
-	string *expected_msg = nstr("String is nil", nil);
+	nstr_t *expected_msg = nstr("String is nil", nil);
 
 	REQUIRE( dup == nil );
 	REQUIRE( errnum(&err) == EFAULT );

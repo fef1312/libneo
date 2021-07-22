@@ -8,8 +8,8 @@
 TEST_CASE( "nstrcmp: Return 0 if strings are equal", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("aaaaa", nil);
-	string *s2 = nstr("aaaaa", nil);
+	nstr_t *s1 = nstr("aaaaa", nil);
+	nstr_t *s2 = nstr("aaaaa", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -23,8 +23,8 @@ TEST_CASE( "nstrcmp: Return 0 if strings are equal", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcmp: Return negative if first string is empty", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("", nil);
-	string *s2 = nstr("aaaaa", nil);
+	nstr_t *s1 = nstr("", nil);
+	nstr_t *s2 = nstr("aaaaa", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -38,8 +38,8 @@ TEST_CASE( "nstrcmp: Return negative if first string is empty", "[string/nstrcat
 TEST_CASE( "nstrcmp: Return positive if second string is empty", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("aaaaa", nil);
-	string *s2 = nstr("", nil);
+	nstr_t *s1 = nstr("aaaaa", nil);
+	nstr_t *s2 = nstr("", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -53,8 +53,8 @@ TEST_CASE( "nstrcmp: Return positive if second string is empty", "[string/nstrca
 TEST_CASE( "nstrcmp: Return 0 if both strings are empty", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("", nil);
-	string *s2 = nstr("", nil);
+	nstr_t *s1 = nstr("", nil);
+	nstr_t *s2 = nstr("", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -69,8 +69,8 @@ TEST_CASE( "nstrcmp: Return positive if first string is larger", "[string/nstrca
 {
 	error err;
 	/* 'a' has a higher ASCII value than 'A' */
-	string *s1 = nstr("aaaaa", nil);
-	string *s2 = nstr("aaaAa", nil);
+	nstr_t *s1 = nstr("aaaaa", nil);
+	nstr_t *s2 = nstr("aaaAa", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -85,8 +85,8 @@ TEST_CASE( "nstrcmp: Return negative if second string is larger", "[string/nstrc
 {
 	error err;
 	/* 'a' has a higher ASCII value than 'A' */
-	string *s1 = nstr("aaaAa", nil);
-	string *s2 = nstr("aaaaa", nil);
+	nstr_t *s1 = nstr("aaaAa", nil);
+	nstr_t *s2 = nstr("aaaaa", nil);
 
 	int diff = nstrcmp(s1, s2, &err);
 
@@ -101,11 +101,11 @@ TEST_CASE( "nstrcmp: Return negative if second string is larger", "[string/nstrc
 TEST_CASE( "nstrcmp: Error if first string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s2 = nstr("aaaaa", nil);
+	nstr_t *s2 = nstr("aaaaa", nil);
 	usize diff = nstrcmp(nil, s2, &err);
 
-	string *expected_msg = nstr("First string is nil", nil);
-	string *actual_msg = errmsg(&err);
+	nstr_t *expected_msg = nstr("First string is nil", nil);
+	nstr_t *actual_msg = errmsg(&err);
 
 	REQUIRE( diff > 0 );
 	REQUIRE( errnum(&err) == EFAULT );
@@ -119,11 +119,11 @@ TEST_CASE( "nstrcmp: Error if first string is nil", "[string/nstrcat.c]" )
 TEST_CASE( "nstrcmp: Error if second string is nil", "[string/nstrcat.c]" )
 {
 	error err;
-	string *s1 = nstr("aaaaa", nil);
+	nstr_t *s1 = nstr("aaaaa", nil);
 	usize diff = nstrcmp(s1, nil, &err);
 
-	string *expected_msg = nstr("Second string is nil", nil);
-	string *actual_msg = errmsg(&err);
+	nstr_t *expected_msg = nstr("Second string is nil", nil);
+	nstr_t *actual_msg = errmsg(&err);
 
 	REQUIRE( diff > 0 );
 	REQUIRE( errnum(&err) == EFAULT );

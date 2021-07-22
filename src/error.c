@@ -9,8 +9,8 @@
 #include "neo/_error.h"
 #include "neo/_nalloc.h"
 #include "neo/_nref.h"
+#include "neo/_nstr.h"
 #include "neo/_stddef.h"
-#include "neo/_string.h"
 #include "neo/_types.h"
 
 void yeet(error *err, u32 number, const char *restrict fmt, ...)

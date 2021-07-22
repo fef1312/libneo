@@ -20,6 +20,7 @@ include(nbuf/nbuf.cmake)
 include(string/string.cmake)
 
 target_sources(neo_test PRIVATE
+    hashtab.cpp
     list.cpp
     nref.cpp
 )

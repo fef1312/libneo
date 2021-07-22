@@ -16,11 +16,11 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(Catch)
 
 add_executable(neo_test neo_test.cpp)
+include(nbuf/nbuf.cmake)
 include(string/string.cmake)
 
 target_sources(neo_test PRIVATE
     list.cpp
-    nbuf.cpp
     nref.cpp
 )
 

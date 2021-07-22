@@ -67,7 +67,12 @@ typedef struct _neo_nref nref_t;
 struct _neo_nbuf {
 	NREF_FIELD;
 	NLEN_FIELD(_size);
-	u8 _data[0];
+	/**
+	 * If this buffer was cloned or converted from a string, this points to
+	 * the original structure's refcounter.  Otherwise, it is nil.
+	 */
+	nref_t *_borrow;
+	const byte *_data;
 };
 /**
  * A statically sized, refcounted buffer.

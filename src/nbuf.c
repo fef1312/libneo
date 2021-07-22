@@ -12,6 +12,9 @@
 
 static void nbuf_destroy(struct _neo_nbuf *buf)
 {
+	if (buf->_borrow != nil)
+		_neo_nput(buf->_borrow);
+
 	nfree(buf);
 }
 
@@ -31,11 +34,13 @@ nbuf_t *nbuf_create(usize size, error *err)
 		return nil;
 	}
 
-	buf->_size = size;
-
+	byte *data = (byte *)buf + sizeof(*buf);
 	for (unsigned int i = 0; i < 4; i++)
-		buf->_data[size + i] = 0;
+		data[size + i] = 0;
 
+	buf->_size = size;
+	buf->_data = data;
+	buf->_borrow = nil;
 	nref_init(buf, nbuf_destroy);
 	neat(err);
 	return buf;
@@ -53,18 +58,65 @@ nbuf_t *nbuf_from(const void *data, usize len, error *err)
 		return nil;
 	}
 
-	memcpy(&buf->_data[0], data, len);
+	byte *buf_data = (byte *)buf + sizeof(*buf);
+	memcpy(buf_data, data, len);
+	/* _data field already filled by nbuf_create */
+
 	return buf;
 }
 
-nbuf_t *nbuf_clone(const nbuf_t *buf, error *err)
+nbuf_t *nbuf_from_str(const char *s, error *err)
+{
+	if (s == nil) {
+		yeet(err, EFAULT, "String is nil");
+		return nil;
+	}
+
+	usize size = strlen(s) + 1;
+	return nbuf_from(s, size, err);
+}
+
+nbuf_t *nbuf_from_nstr(nstr_t *s, error *err)
+{
+	if (s == nil) {
+		yeet(err, EFAULT, "String is nil");
+		return nil;
+	}
+
+	nbuf_t *buf = nalloc(sizeof(*buf), err);
+	catch(err) {
+		return nil;
+	}
+
+	nget(s);
+	buf->_size = s->_size;
+	buf->_borrow = &s->__neo_nref;
+	buf->_data = (const byte *)s->_data;
+	nref_init(buf, nbuf_destroy);
+
+	return buf;
+}
+
+nbuf_t *nbuf_clone(nbuf_t *buf, error *err)
 {
 	if (buf == nil) {
 		yeet(err, EFAULT, "Source buffer is nil");
 		return nil;
 	}
 
-	return nbuf_from(&buf->_data[0], nlen(buf), err);
+	nbuf_t *clone = nalloc(sizeof(*clone), err);
+	catch(err) {
+		return nil;
+	}
+
+	nget(buf);
+
+	clone->_size = buf->_size;
+	clone->_borrow = &buf->__neo_nref;
+	clone->_data = buf->_data;
+	nref_init(clone, nbuf_destroy);
+
+	return clone;
 }
 
 int nbuf_cmp(const nbuf_t *buf1, const nbuf_t *buf2, error *err)
@@ -83,7 +135,7 @@ int nbuf_cmp(const nbuf_t *buf1, const nbuf_t *buf2, error *err)
 
 	neat(err);
 
-	if (buf1 == buf2)
+	if (buf1->_data == buf2->_data)
 		return 0;
 
 	/*

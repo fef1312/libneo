@@ -188,7 +188,7 @@ int nstrcmp(const nstr_t *s1, const nstr_t *s2, error *err);
  * @param err: Error pointer
  * @returns The new padded string
  */
-nstr_t *leftpad(const nstr_t *s, usize length, nchar fill, error *err);
+nstr_t *leftpad(nstr_t *s, usize length, nchar fill, error *err);
 
 /**
  * Iterate over each character in a string.

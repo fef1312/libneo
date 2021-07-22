@@ -47,7 +47,7 @@ static inline nstr_t *leftpad_unsafe(const nstr_t *s, usize len, nchar fillchr, 
 	return padded;
 }
 
-nstr_t *leftpad(const nstr_t *s, usize len, nchar fillchr, error *err)
+nstr_t *leftpad(nstr_t *s, usize len, nchar fillchr, error *err)
 {
 	if (s == nil) {
 		yeet(err, EFAULT, "String is nil");

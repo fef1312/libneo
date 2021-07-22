@@ -30,6 +30,30 @@ nbuf_t *nbuf_create(usize size, error *err);
 nbuf_t *nbuf_from(const void *restrict data, usize size, error *err);
 
 /**
+ * Create a new buffer of fixed size and copy a string into it.
+ *
+ * The original string is neither modified not deallocated.
+ * If allocation fails or `s` is `nil`, an error is yeeted.
+ *
+ * @param s: String to fill the buffer with
+ * @param err: Error pointer
+ * @returns The buffer, except if an error occurred
+ */
+nbuf_t *nbuf_from_str(const char *restrict s, error *err);
+
+/**
+ * Create a new buffer of fixed size and copy a neo string into it.
+ *
+ * The original string is unmodified.
+ * If allocation fails or `s` is `nil`, an error is yeeted.
+ *
+ * @param s: Neo string to fill the buffer with
+ * @param err: Error pointer
+ * @returns The buffer, except if an error occurred
+ */
+nbuf_t *nbuf_from_nstr(nstr_t *s, error *err);
+
+/**
  * Return a new copy of `buf`.
  *
  * If `buf` is `nil` or allocation fails, an error is yeeted.
@@ -38,7 +62,7 @@ nbuf_t *nbuf_from(const void *restrict data, usize size, error *err);
  * @param err: Error pointer
  * @returns A copy of `buf`, unless an error occurred
  */
-nbuf_t *nbuf_clone(const nbuf_t *buf, error *err);
+nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
 
 /**
  * Get the byte at the specified index.

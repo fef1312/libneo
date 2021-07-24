@@ -9,8 +9,9 @@
 TEST_CASE( "utf8_check: ASCII string", "[string/utf.c]" )
 {
 	error err;
-	utf8_check("i'm gay,,,", &err);
+	usize len = utf8_check("i'm gay,,,", &err);
 
+	REQUIRE( len == 10 );
 	REQUIRE( errnum(&err) == 0 );
 	REQUIRE( errmsg(&err) == nil );
 }
@@ -19,8 +20,9 @@ TEST_CASE( "utf8_check: String with 2-byte UTF-8 sequence", "[string/utf.c]" )
 {
 	error err;
 	/* U+03B1 Greek Smol Letter Alpha */
-	utf8_check("i'm g\xce\xb1y,,,", &err);
+	usize len = utf8_check("i'm g\xce\xb1y,,,", &err);
 
+	REQUIRE( len == 10 );
 	REQUIRE( errnum(&err) == 0 );
 	REQUIRE( errmsg(&err) == nil );
 }
@@ -39,8 +41,9 @@ TEST_CASE( "utf8_check: String with 4-byte UTF-8 sequence", "[string/utf.c]" )
 {
 	error err;
 	/* U+1F97A The Bottom Emoji(TM) */
-	utf8_check("i'm gay\xf0\x9f\xa5\xba,,,", &err);
+	usize len = utf8_check("i'm gay\xf0\x9f\xa5\xba,,,", &err);
 
+	REQUIRE( len == 11 );
 	REQUIRE( errnum(&err) == 0 );
 	REQUIRE( errmsg(&err) == nil );
 }

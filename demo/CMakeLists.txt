@@ -5,6 +5,7 @@ add_executable(demo)
 target_link_libraries(demo PRIVATE neo)
 
 target_sources(demo PRIVATE
+    ./error.c
     ./nref_borrowed.c
     ./nref_simple.c
     ./main.c

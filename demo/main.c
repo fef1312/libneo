@@ -8,6 +8,7 @@
 
 void nref_simple_demo(void);
 void nref_borrowed_demo(void);
+void error_demo(void);
 
 int main(int argc, char **argv)
 {
@@ -18,6 +19,10 @@ int main(int argc, char **argv)
 	printf("==== running nref_borrowed_demo ====\n");
 	nref_borrowed_demo();
 	printf("==== end of nref_borrowed_demo ====\n\n");
+
+	printf("==== running error_demo ====\n");
+	error_demo();
+	printf("==== end of error_demo ====\n\n");
 }
 
 /*

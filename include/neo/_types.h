@@ -1,8 +1,14 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 #pragma once
 
 #include "neo/_stddef.h"
+
+/**
+ * @defgroup types Primitive Types
+ *
+ * @{
+ */
 
 typedef __INT8_TYPE__		i8;
 typedef __INT16_TYPE__		i16;
@@ -18,12 +24,14 @@ typedef __UINT64_TYPE__		u64;
 typedef __SIZE_TYPE__		usize;
 typedef __PTRDIFF_TYPE__	isize;
 
-/** A single Unicode character (32 bits) */
+/** @brief A single Unicode character (32 bits) */
 typedef u32			nchar;
 
 typedef float		f32;
 typedef double		f64;
 typedef long double	f128;
+
+/** @} */
 
 #ifdef __cplusplus
 	/* TODO: This is probably not a good idea */
@@ -38,10 +46,12 @@ typedef long double	f128;
 #endif
 
 /**
- * Declare a length field in a structure.
+ * @brief Declare a length field in a structure.
  * This makes it compatible with the `nlen` macro.
  *
- * @param name: field name, will be of type `usize`
+ * @param name field name, will be of type `usize`
+ *
+ * @ingroup stddef
  */
 #define NLEN_FIELD(name)				\
 	union {						\
@@ -56,12 +66,23 @@ struct _neo_nref {
 	__neo_atomic_type _count;
 };
 /**
- * A basic reference counter for data structures.
+ * @brief A basic reference counter for data structures.
+ *
  * Embed this into your data structure using the `NREF_FIELD` macro, initialize
  * it using `nref_init`, and use `nget` and `nput` to increment/decrement the
  * reference counter.
+ *
+ * @ingroup nref
  */
 typedef struct _neo_nref nref_t;
+/**
+ * @brief Embed this macro into your structure to enable refcounting.
+ *
+ * The reference counter must be initialized using `nref_init` and may be
+ * incremented and decremented using `nget` and `nput` respectively.
+ *
+ * @ingroup stddef
+ */
 #define NREF_FIELD nref_t __neo_nref
 
 struct _neo_nbuf {
@@ -75,7 +96,9 @@ struct _neo_nbuf {
 	const byte *_data;
 };
 /**
- * A statically sized, refcounted buffer.
+ * @brief An immutable, refcounted buffer.
+ *
+ * @ingroup nbuf
  */
 typedef struct _neo_nbuf nbuf_t;
 
@@ -92,12 +115,22 @@ struct _neo_nstr {
 	nref_t *_borrow;
 	const char *_data;
 };
+/**
+ * @brief An immutable, refcounted UTF-8 string.
+ *
+ * @ingroup nstr
+ */
 typedef struct _neo_nstr nstr_t;
 
 struct _neo_error {
 	nstr_t *_message;
 	u32 _number;
 };
+/**
+ * @brief The generic error type.
+ *
+ * @ingroup error
+ */
 typedef struct _neo_error error;
 
 /*

@@ -1,4 +1,4 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 /**
  * @file Conversion utilities for raw UTF.
@@ -24,75 +24,75 @@ extern "C" {
 #include "neo/_types.h"
 
 /**
- * Check whether a NUL terminated string is valid UTF-8.
+ * @brief Check whether a NUL terminated string is valid UTF-8.
  *
  * If the string contains any malformed code sequences, an error is yeeted.
  *
- * @param s: String to validate
- * @param err: Error pointer
+ * @param s String to validate
+ * @param err Error pointer
  * @returns The number of UTF-8 code points (i.e. number of Unicode characters)
  *	excluding the terminating NUL byte; undefined on error
  */
 usize utf8_check(const char *restrict s, error *err);
 
 /**
- * Check whether a NUL terminated string is valid UTF-8, but read at most
- * `maxsize + 3` bytes (this function uses `utf8_to_nchr` internally).
+ * @brief Check whether a NUL terminated string is valid UTF-8.
+ * At most `maxsize + 3` bytes are read (this function uses `utf8_to_nchr` internally).
  *
  * If a NUL terminator is encountered before `maxsize` bytes, reading stops
  * before the specified size.  If the string contains any malformed code
  * sequences, an error is yeeted.
  *
- * @param s: String to validate
- * @param maxsize: Maximum amount of byte to read from `s`
- * @param err: Error pointer
+ * @param s String to validate
+ * @param maxsize Maximum amount of byte to read from `s`
+ * @param err Error pointer
  * @returns The number of UTF-8 code points (i.e. number of Unicode characters)
  *	excluding the terminating NUL byte; undefined on error
  */
 usize utf8_ncheck(const char *restrict s, usize maxsize, error *err);
 
 /**
- * Compute the length of a raw UTF-8 encoded, NUL terminated string.
+ * @brief Compute the length of a raw UTF-8 encoded, NUL terminated string.
  *
  * The string is *not* checked for malformed code sequences,
  * use `utf8_check` for that.
  *
- * @param s: String to get the length of
- * @returns: String length as in Unicode code points (not bytes),
+ * @param s String to get the length of
+ * @returns String length as in Unicode code points (not bytes),
  *	excluding the terminating NUL byte
  */
 usize utf8_strlen(const char *restrict s);
 
 /**
- * Get the amount of bytes a Unicode character takes up in UTF-8.
+ * @brief Get the amount of bytes a Unicode character takes up in UTF-8.
  *
  * If the character is outside of the Unicode range (`0x00000000`~`0x0010ffff`),
  * an error is yeeted.
  *
- * @param c: The character
- * @param err: Error pointer
+ * @param c The character
+ * @param err Error pointer
  * @returns The amount of bytes needed to store the character in UTF-8 encoding,
  *	which is always between 1 and 4 except on errors
  */
 usize utf8_chrsize(nchar c, error *err);
 
 /**
- * UTF-8 encode a Unicode character and store it in `dest` with NUL terminator.
+ * @brief UTF-8 encode a Unicode character and store it in `dest` with NUL terminator.
  *
  * The buffer needs to hold at least 5 bytes.  If the character is outside of
  * the Unicode range (`0x00000000`~`0x0010ffff`), an error is yeeted and the
  * buffer is not modified.
  *
- * @param dest: Where to store the encoded character (*not* NUL terminated)
- * @param c: Character to encode
- * @param err: Error pointer
+ * @param dest Where to store the encoded character (*not* NUL terminated)
+ * @param c Character to encode
+ * @param err Error pointer
  * @returns The amount of bytes taken up by the character,
  *	which is always between 1 and 4 except on errors
  */
 usize utf8_from_nchr(char *restrict dest, nchar c, error *err);
 
 /**
- * Decode a UTF-8 character and store it in `c`.
+ * @brief Decode a UTF-8 character and store it in `c`.
  *
  * If the character encoding is malformed, an error is yeeted and `c` is set to
  * the ASCII NUL character.  The encoded character does not need to be NUL
@@ -101,9 +101,9 @@ usize utf8_from_nchr(char *restrict dest, nchar c, error *err);
  * this may cause the method to read up to 3 bytes over the end of the buffer
  * if the code sequence is malformed.
  *
- * @param c: Where to store the decoded character
- * @param utf8chr: UTF-8 encoded character sequence
- * @param err: Error pointer
+ * @param c Where to store the decoded character
+ * @param utf8chr UTF-8 encoded character sequence
+ * @param err Error pointer
  * @returns The amount of bytes the character took up when encoded as UTF-8,
  *	which is always between 1 and 4 except on errors
  */

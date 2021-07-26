@@ -1,4 +1,4 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 #pragma once
 

@@ -1,4 +1,4 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 #pragma once
 
@@ -6,72 +6,78 @@
 #include "neo/_types.h"
 
 /**
- * Create a new buffer of fixed size.
+ * @defgroup nbuf Buffers
+ *
+ * @{
+ */
+
+/**
+ * @brief Create a new buffer of fixed size.
  *
  * If allocation fails or `size` is 0, an error is yeeted.
  *
- * @param size: Size in bytes
- * @param err: Error pointer
+ * @param size Size in bytes
+ * @param err Error pointer
  * @returns The buffer, except if an error occurred
  */
 nbuf_t *nbuf_create(usize size, error *err);
 
 /**
- * Create a new buffer of fixed size and copy `data` into it.
+ * @brief Create a new buffer of fixed size and copy `data` into it.
  *
  * The original pointer is neither modified nor deallocated.
  * If allocation fails, `data` is `nil`, or `size` is 0, an error is yeeted.
  *
- * @param data: Raw data to fill the buffer with
- * @param size: How many bytes are read from `data`, and the buffer size
- * @param err: Error pointer
+ * @param data Raw data to fill the buffer with
+ * @param size How many bytes are read from `data`, and the buffer size
+ * @param err Error pointer
  * @returns The buffer, except if an error occurred
  */
 nbuf_t *nbuf_from(const void *restrict data, usize size, error *err);
 
 /**
- * Create a new buffer of fixed size and copy a string into it.
+ * @brief Create a new buffer of fixed size and copy a string into it.
  *
- * The original string is neither modified not deallocated.
+ * The original string is neither modified nor deallocated.
  * If allocation fails or `s` is `nil`, an error is yeeted.
  *
- * @param s: String to fill the buffer with
- * @param err: Error pointer
+ * @param s String to fill the buffer with
+ * @param err Error pointer
  * @returns The buffer, except if an error occurred
  */
 nbuf_t *nbuf_from_str(const char *restrict s, error *err);
 
 /**
- * Create a new buffer of fixed size and copy a neo string into it.
+ * @brief Create a new buffer of fixed size and copy a neo string into it.
  *
  * The original string is unmodified.
  * If allocation fails or `s` is `nil`, an error is yeeted.
  *
- * @param s: Neo string to fill the buffer with
- * @param err: Error pointer
+ * @param s Neo string to fill the buffer with
+ * @param err Error pointer
  * @returns The buffer, except if an error occurred
  */
 nbuf_t *nbuf_from_nstr(nstr_t *s, error *err);
 
 /**
- * Return a new copy of `buf`.
+ * @brief Return a new copy of `buf`.
  *
  * If `buf` is `nil` or allocation fails, an error is yeeted.
  *
- * @param buf: Buffer to create a copy of
- * @param err: Error pointer
+ * @param buf Buffer to create a copy of
+ * @param err Error pointer
  * @returns A copy of `buf`, unless an error occurred
  */
 nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
 
 /**
- * Get the byte at the specified index.
+ * @brief Get the byte at the specified index.
  *
  * If `buf` is `nil` or `index` is out of bounds, an error is yeeted.
  *
- * @param buf: `nbuf_t *` to get the byte from
- * @param index: Byte index (counting from 0)
- * @param err: Error pointer
+ * @param buf `nbuf_t *` to get the byte from
+ * @param index Byte index (counting from 0)
+ * @param err Error pointer
  * @returns The byte at position `index` (as a `u8`), unless an error occurred
  */
 #define nbuf_byte(buf, index, err) ({					\
@@ -91,7 +97,7 @@ nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
 	     cursor++)
 
 /**
- * Compare two buffers.
+ * @brief Compare two buffers.
  *
  * If the first buffer is found to be greater than the second one, the return
  * value is greater than 0.
@@ -101,14 +107,16 @@ nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
  *
  * If `buf1` or `buf2` is `nil`, an error is yeeted.
  *
- * @param buf1: First buffer to compare
- * @param buf2: Second buffer to compare
- * @param err: Error pointer
+ * @param buf1 First buffer to compare
+ * @param buf2 Second buffer to compare
+ * @param err Error pointer
  * @returns The difference between the buffers, unless an error occurred
  */
 int nbuf_cmp(const nbuf_t *buf1, const nbuf_t *buf2, error *err);
 
 #define nbuf_eq(buf1, buf2, err) ( (bool)(nbuf_cmp(buf1, buf2, err) == 0) )
+
+/** @} */
 
 /*
  * This file is part of libneo.

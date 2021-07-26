@@ -1,8 +1,14 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 #pragma once
 
 #include "neo/_types.h"
+
+/**
+ * @defgroup stddef Core Macros
+ *
+ * @{
+ */
 
 #ifdef __cplusplus
 #	define nil nullptr
@@ -18,7 +24,7 @@
 #	define typeof(expr) __typeof(expr)
 #endif
 
-/** Get the absolute (non negative) value of an integer */
+/** @brief Get the absolute (non negative) value of an integer */
 #define nabs(n) ({								\
 	/* n is an expression, not a variable, evaluate it only once */		\
 	typeof(n) __neo_local_n = (n);						\
@@ -38,13 +44,17 @@
 })
 
 /**
+ * @brief Get the length of a data structure embedding `NLEN_FIELD`.
+ *
  * Quickly get the length (as in amount of items, not bytes) of any libneo data
  * structure that supports it.  This includes strings, buffers, lists, and more.
  *
- * @param thing: Thing to get the length of
- * @returns: The length as a `const usize`
+ * @param thing Thing to get the length of
+ * @returns The length as a `const usize`
  */
 #define nlen(thing) ((thing)->__neo_nlen)
+
+/* @} */
 
 /*
  * This file is part of libneo.

@@ -1,35 +1,44 @@
-/** See the end of this file for copyright and license terms. */
+/* See the end of this file for copyright and license terms. */
 
 #pragma once
 
 #include "neo/_toolchain.h"
 #include "neo/_types.h"
 
+/**
+ * @defgroup nalloc Memory Management
+ *
+ * @{
+ */
+
+/**
+ * @brief Release memory.
+ *
+ * @param ptr Pointer returned by `nalloc()` or `nzalloc()`
+ */
 void nfree(void *ptr);
 
 /**
  * Allocate `size` bytes of memory and return a pointer to the memory region.
- * The memory is *not* initialized; use `nzalloc` if you want it to be.
+ * The memory is *not* initialized; use `nzalloc()` if you want it to be.
  * If `size` is 0, the allocation fails.
  * If the allocation fails, the error is set and `nil` is returned.
  *
- * @param size: Desired memory size in bytes
- * @param err: Error object
+ * @param size Desired memory size in bytes
+ * @param err Error object
  */
-__neo_malloc(nfree, 1)
-void *nalloc(usize size, error *err);
+void *nalloc(usize size, error *err) __neo_malloc(nfree, 1);
 
 /**
  * Allocate `size` bytes of memory and return a pointer to the memory region.
- * The memory is initialized to zeroes; use `nalloc` if you don't want that.
+ * The memory is initialized to zeroes; use `nalloc()` if you don't want that.
  * If `size` is 0, the allocation fails.
  * If the allocation fails, the error is set and `nil` is returned.
  *
- * @param size: Desired memory size in bytes
- * @param err: Error object
+ * @param size Desired memory size in bytes
+ * @param err Error object
  */
-__neo_malloc(nfree, 1)
-void *nzalloc(usize size, error *err);
+void *nzalloc(usize size, error *err) __neo_malloc(nfree, 1);
 
 /**
  * Resize an allocated memory region to fit at least `newsize` bytes and return
@@ -38,13 +47,14 @@ void *nzalloc(usize size, error *err);
  * If `ptr` is `nil`, the function behaves like `nalloc`.
  * If allocation fails, an error is yeeted.
  *
- * @param ptr: The pointer to the memory region to be expanded,
- *	as returned by `nalloc` or `nzalloc`.
- * @param newsize: The new size.
- * @param err: Error object
+ * @param ptr The pointer to the memory region to be expanded,
+ *	as returned by `nalloc()` or `nzalloc()`
+ * @param newsize The new size
+ * @param err Error object
  */
-__neo_malloc(nfree, 1)
-void *nrealloc(void *ptr, usize newsize, error *err);
+void *nrealloc(void *ptr, usize newsize, error *err) __neo_malloc(nfree, 1);
+
+/** @} */
 
 /*
  * This file is part of libneo.

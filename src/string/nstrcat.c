@@ -41,6 +41,18 @@ nstr_t *nstrcat(const nstr_t *s1, const nstr_t *s2, error *err)
 	return ret;
 }
 
+nstr_t *nstrcat_put(nstr_t *s1, nstr_t *s2, error *err)
+{
+	nstr_t *cat = nstrcat(s1, s2, err);
+	catch(err) {
+		return nil;
+	}
+
+	nput(s1);
+	nput(s2);
+	return cat;
+}
+
 /*
  * This file is part of libneo.
  * Copyright (c) 2021 Fefie <owo@fef.moe>.

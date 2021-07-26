@@ -157,6 +157,17 @@ nstr_t *nstrdup(nstr_t *s, error *err);
 nstr_t *nstrmul(nstr_t *s, usize n, error *err);
 
 /**
+ * @brief The same as `nstrmul()`, but `nput()` is called on `s` afterwards.
+ *
+ * @param s String to repeat, `nput()` will be called on it
+ * @param n Total amount of repetitions
+ * @param err Error pointer
+ * @returns A new string with the repeated content, unless an error occurred
+ * @see nstrmul
+ */
+nstr_t *nstrmul_put(nstr_t *s, usize n, error *err);
+
+/**
  * @brief Create a string considting of `n` repetitions of `c`.
  *
  * If `c` is not within unicode space or allocation fails, an error is yeeted.
@@ -182,6 +193,18 @@ nstr_t *nchrmul(nchar c, usize n, error *err);
  *	unless an error occurred
  */
 nstr_t *nstrcat(const nstr_t *s1, const nstr_t *s2, error *err);
+
+/**
+ * @brief The same as `nstrcat()`, but `nput()` is called on `s1` and `s2` afterwards.
+ *
+ * @param s1 First string, `nput()` will be called on this
+ * @param s2 Second string, `nput()` will be called on this
+ * @param err Error pointer
+ * @returns A new string instance that consists of the two concatenated ones,
+ *	unless an error occurred
+ * @see nstrcar
+ */
+nstr_t *nstrcat_put(nstr_t *s1, nstr_t *s2, error *err);
 
 /**
  * @brief Compare two strings character by character.
@@ -224,6 +247,18 @@ int nstrcmp(const nstr_t *s1, const nstr_t *s2, error *err);
  * @returns The new padded string
  */
 nstr_t *leftpad(nstr_t *s, usize length, nchar fill, error *err);
+
+/**
+ * @brief The same as `leftpad()`, but `nput()` is called on `s` afterwards
+ *
+ * @param s String to expand
+ * @param length Desired length of the new string
+ * @param fill Character to fill the space with
+ * @param err Error pointer
+ * @returns The new padded string
+ * @see leftpad
+ */
+nstr_t *leftpad_put(nstr_t *s, usize length, nchar fill, error *err);
 
 /**
  * @brief Iterate over each character in a string.

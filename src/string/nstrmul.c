@@ -39,6 +39,17 @@ nstr_t *nstrmul(nstr_t *s, usize n, error *err)
 	return ret;
 }
 
+nstr_t *nstrmul_put(nstr_t *s, usize n, error *err)
+{
+	nstr_t *mul = nstrmul(s, n, err);
+	catch(err) {
+		return nil;
+	}
+
+	nput(s);
+	return mul;
+}
+
 nstr_t *nchrmul(nchar c, usize n, error *err)
 {
 	if (n == 0)

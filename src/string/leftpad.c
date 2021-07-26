@@ -68,6 +68,16 @@ nstr_t *leftpad(nstr_t *s, usize len, nchar fillchr, error *err)
 	return padded;
 }
 
+nstr_t *leftpad_put(nstr_t *s, usize len, nchar fillchr, error *err)
+{
+	nstr_t *padded = leftpad(s, len, fillchr, err);
+	catch(err) {
+		return nil;
+	}
+	nput(s);
+	return padded;
+}
+
 /*
  * This file is part of libneo.
  * Copyright (c) 2021 Fefie <owo@fef.moe>.

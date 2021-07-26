@@ -28,6 +28,8 @@ add_subdirectory(src)
 
 add_subdirectory(demo)
 
+add_subdirectory(doc)
+
 option(BUILD_TESTING "Build tests" ON)
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR NEO_BUILD_TESTING) AND BUILD_TESTING)
     enable_testing()

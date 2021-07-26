@@ -56,6 +56,34 @@ int _neo_nput(struct _neo_nref *ref);
 })
 
 /**
+ * @brief Borrow a refcounted structure.
+ *
+ * Increment the refcounter of a structure embedding `NREF_FIELD` and return
+ * a pointer to its `nref_t` field so that it can be stored in your own struct
+ * that depends on its existence.
+ *
+ * The borrowed structure is guaranteed to not be destroyed before you call
+ * `unborrow()` (unless you make the error of calling `nput()` )
+ *
+ * @param ptr Pointer to the refcounted entity to borrow
+ * @returns An `nref_t *` that must be passed to `unborrow()` when the borrow
+ *	is no longer used
+ */
+#define borrow(ptr) ({					\
+	nref_t *__nref = &(ptr)->__neo_nref;		\
+	_neo_nget(__nref);				\
+	__nref;						\
+})
+
+/**
+ * @brief Decrement the reference counter of a borrowed structure after usage.
+ * Call this in the borrowing structure's teardown routine.
+ *
+ * @param nref The `nref_t *` returned by `borrow()`
+ */
+#define unborrow(nref) ((void)_neo_nput(nref))
+
+/**
  * @brief Return the current reference count of a structure embedding `NREF_FIELD`.
  * You usually shouldn't need this though.
  *

@@ -1,7 +1,16 @@
 /* See the end of this file for copyright and license terms. */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "neo/_toolchain.h"
+#include "neo/_types.h"
+
 /**
- * @file Conversion utilities for raw UTF.
+ * @defgroup utf Raw UTF Handling
  *
  * Note that libneo strings already have native UTF-8 support, so you only
  * really need this if you explicitly need to deal with different encodings or
@@ -12,16 +21,9 @@
  * for them if the string contains a malformed UTF sequence.
  *
  * Believe me when i say you do not want to use these.
+ *
+ * @{
  */
-
-#pragma once
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "neo/_toolchain.h"
-#include "neo/_types.h"
 
 /**
  * @brief Check whether a NUL terminated string is valid UTF-8.
@@ -37,7 +39,7 @@ usize utf8_check(const char *restrict s, error *err);
 
 /**
  * @brief Check whether a NUL terminated string is valid UTF-8.
- * At most `maxsize + 3` bytes are read (this function uses `utf8_to_nchr` internally).
+ * At most `maxsize + 3` bytes are read (this function uses `utf8_to_nchr()` internally).
  *
  * If a NUL terminator is encountered before `maxsize` bytes, reading stops
  * before the specified size.  If the string contains any malformed code
@@ -55,7 +57,7 @@ usize utf8_ncheck(const char *restrict s, usize maxsize, error *err);
  * @brief Compute the length of a raw UTF-8 encoded, NUL terminated string.
  *
  * The string is *not* checked for malformed code sequences,
- * use `utf8_check` for that.
+ * use `utf8_check()` for that.
  *
  * @param s String to get the length of
  * @returns String length as in Unicode code points (not bytes),
@@ -108,6 +110,8 @@ usize utf8_from_nchr(char *restrict dest, nchar c, error *err);
  *	which is always between 1 and 4 except on errors
  */
 usize utf8_to_nchr(nchar *c, const char *restrict utf8chr, error *err);
+
+/** @} */
 
 #ifdef __cplusplus
 }; /* extern "C" */

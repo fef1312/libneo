@@ -13,34 +13,66 @@
 #ifdef __cplusplus
 #	define nil nullptr
 #else
+	/** @brief Null pointer. */
 #	define nil ((void *)0)
 #endif
 
 #ifndef offsetof
+	/**
+	 * @brief Get the byte offset of a member within a struct.
+	 *
+	 * @param type Type of the structure
+	 * @param member Name of the member within the struct
+	 * @returns The byte offset of `member` within `type`
+	 */
 #	define offsetof(type, member) __builtin_offsetof(type, member)
 #endif
 
 #ifndef typeof
+	/**
+	 * @brief Get the type an expression evaluates to (for generic macros).
+	 *
+	 * @param expr Expression to get the type of
+	 * @returns The type, can be used for casting or declarations
+	 */
 #	define typeof(expr) __typeof(expr)
 #endif
 
-/** @brief Get the absolute (non negative) value of an integer */
-#define nabs(n) ({								\
-	/* n is an expression, not a variable, evaluate it only once */		\
-	typeof(n) __neo_local_n = (n);						\
-	__neo_local_n < 0 ? -__neo_local_n : __neo_local_n;			\
+/**
+ * @brief Get the absolute (non negative) value of an integer.
+ *
+ * @param n The integer
+ * @returns The absolute value
+ */
+#define nabs(n) ({			\
+	typeof(n) __n = (n);		\
+	__n < 0 ? -__n : __n;		\
 })
 
+/**
+ * @brief Get the maximum value of two integer expressions.
+ *
+ * @param x1 First expression
+ * @param x2 Second expression
+ * @returns The bigger value
+ */
 #define nmax(x1, x2) ({			\
 	typeof(x1) __x1 = (x1);		\
 	typeof(x2) __x2 = (x2);		\
 	__x1 > __x2 ? __x1 : __x2;	\
 })
 
+/**
+ * @brief Get the minimum value of two integer expressions.
+ *
+ * @param x1 First expression
+ * @param x2 Second expression
+ * @returns The smaller value
+ */
 #define nmin(x1, x2) ({			\
 	typeof(x1) __x1 = (x1);		\
 	typeof(x2) __x2 = (x2);		\
-	__x1 < __x2 ? __x1 : x2;	\
+	__x1 < __x2 ? __x1 : __x2;	\
 })
 
 /**
@@ -54,7 +86,7 @@
  */
 #define nlen(thing) ((thing)->__neo_nlen)
 
-/* @} */
+/** @} */
 
 /*
  * This file is part of libneo.

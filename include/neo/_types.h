@@ -10,26 +10,38 @@
  * @{
  */
 
+/** @brief Signed 8-bit integer. */
 typedef __INT8_TYPE__		i8;
+/** @brief Signed 16-bit integer. */
 typedef __INT16_TYPE__		i16;
+/** @brief Signed 32-bit integer. */
 typedef __INT32_TYPE__		i32;
+/** @brief Signed 64-bit integer. */
 typedef __INT64_TYPE__		i64;
 
+/** @brief Unsigned 8-bit integer. */
 typedef __UINT8_TYPE__		u8;
+/** @brief Alias for @a `u8`. */
 typedef __UINT8_TYPE__		byte;
+/** @brief Unsigned 16-bit integer. */
 typedef __UINT16_TYPE__		u16;
+/** @brief Unsigned 32-bit integer. */
 typedef __UINT32_TYPE__		u32;
+/** @brief Unsigned 64-bit integer. */
 typedef __UINT64_TYPE__		u64;
 
+/** @brief Platform-dependent unsigned integer for storing sizes. */
 typedef __SIZE_TYPE__		usize;
+/** @brief Platform-dependent signed integer for storing sizes. */
 typedef __PTRDIFF_TYPE__	isize;
 
-/** @brief A single Unicode character (32 bits) */
+/** @brief A single Unicode character (32 bits). */
 typedef u32			nchar;
 
+/** @brief Single precision (32-bit) floating-point number. */
 typedef float		f32;
+/** @brief Double precision (64-bit) floating-point number. */
 typedef double		f64;
-typedef long double	f128;
 
 /** @} */
 
@@ -47,7 +59,7 @@ typedef long double	f128;
 
 /**
  * @brief Declare a length field in a structure.
- * This makes it compatible with the `nlen` macro.
+ * This makes it compatible with the `nlen()` macro.
  *
  * @param name field name, will be of type `usize`
  *
@@ -59,6 +71,7 @@ typedef long double	f128;
 		volatile const usize __neo_nlen;	\
 	}
 
+/** @private */
 struct _neo_nref {
 	void (*_destroy)(void *);
 	/** byte offset into the struct this is embedded in */
@@ -85,6 +98,7 @@ typedef struct _neo_nref nref_t;
  */
 #define NREF_FIELD nref_t __neo_nref
 
+/** @private */
 struct _neo_nbuf {
 	NREF_FIELD;
 	NLEN_FIELD(_size);
@@ -102,6 +116,7 @@ struct _neo_nbuf {
  */
 typedef struct _neo_nbuf nbuf_t;
 
+/** @private */
 struct _neo_nstr {
 	/* The *amount of Unicode code points*, NOT amount of bytes */
 	NLEN_FIELD(_len);
@@ -122,6 +137,7 @@ struct _neo_nstr {
  */
 typedef struct _neo_nstr nstr_t;
 
+/** @private */
 struct _neo_error {
 	nstr_t *_message;
 	u32 _number;

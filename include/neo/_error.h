@@ -28,9 +28,9 @@ void yeet(error *err, u32 number, const char *restrict fmt, ...)
 __attribute__(( __format__(printf, 3, 4) ));
 
 /**
- * Indicate an operation has completed successfully.
+ * @brief Indicate an operation has completed successfully.
  * Functions accepting an `error` pointer must call either `yeet()` or `neat()`,
- * or the begavior is undefined.
+ * or the behavior is undefined.
  *
  * @param err Error object
  */
@@ -55,10 +55,16 @@ void errput(error *err);
  *
  * Execute the expression after this macro call if the error pointed to
  * by `err` is an actual error, i.e. it has been `yeet()`ed to.
- * Resources for the error must be released using `nput()`.
+ * Resources for the error must be released using `errput()`.
  */
 #define ncatch(err) if ((err) != nil && (err)->_number != 0)
 #ifndef __cplusplus
+	/**
+	 * @brief Catch an error.
+	 *
+	 * This is just a wrapper intended to piss off C++ developers, and thus
+	 * should be used instead of `ncatch()` wherever possible.
+	 */
 #	define catch(err) ncatch(err)
 #endif
 

@@ -19,7 +19,7 @@
 void nfree(void *ptr);
 
 /**
- * Allocate `size` bytes of memory and return a pointer to the memory region.
+ * @brief Allocate `size` bytes of memory and return a pointer to the memory region.
  * The memory is *not* initialized; use `nzalloc()` if you want it to be.
  * If `size` is 0, the allocation fails.
  * If the allocation fails, the error is set and `nil` is returned.

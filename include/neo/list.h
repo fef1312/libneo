@@ -1,9 +1,5 @@
 /* See the end of this file for copyright and license terms. */
 
-/**
- * @file List API
- */
-
 #pragma once
 
 #ifdef __cplusplus
@@ -15,6 +11,7 @@ extern "C" {
 
 struct _neo_list;
 
+/** @private */
 struct _neo_listnode {
 	struct _neo_listnode *_next;
 	struct _neo_listnode *_prev;
@@ -27,6 +24,7 @@ struct _neo_listnode {
  */
 typedef struct _neo_listnode listnode_t;
 
+/** @private */
 struct _neo_list {
 	struct _neo_listnode _root;
 	NLEN_FIELD(_len);
@@ -46,6 +44,7 @@ typedef struct _neo_list list_t;
  * @param casted `struct *` that the @a `listnode_t *` was casted out to
  * @param list @a `list_t *` storing the root @a `listnode_t`
  * @param member Name of the @a `listnode_t` member embedded within the `struct *`
+ * @private
  */
 #define _neo_list_is_root(casted, list, member) \
 	( &(casted)->member == &(list)->_root )
@@ -55,15 +54,19 @@ typedef struct _neo_list list_t;
  * external compiler settings which my complain about calculating with void *
  */
 
+/** @private */
 #define _neo_list_first(list, type, member) \
 	((type *)( (u8 *)((list)->_root._next) - offsetof(type, member) ))
 
+/** @private */
 #define _neo_list_last(list, type, member) \
 	((type *)( (u8 *)((list)->_root._prev) - offsetof(type, member) ))
 
+/** @private */
 #define _neo_list_next(current, member) \
 	((typeof(current))( (u8 *)((current)->member._next) - offsetof(typeof(*(current)), member) ))
 
+/** @private */
 #define _neo_list_prev(current, member) \
 	((typeof(current))( (u8 *)((current)->member._prev) - offsetof(typeof(*(current)), member) ))
 
@@ -74,7 +77,7 @@ typedef struct _neo_list list_t;
  */
 
 /**
- * Initialize a list.
+ * @brief Initialize a list.
  *
  * @param list The list
  */
@@ -104,7 +107,7 @@ void list_del(listnode_t *node);
 void list_add_first(list_t *list, listnode_t *new_node);
 
 /**
- * Insert a new node after the specified list node.
+ * @brief Insert a new node after the specified list node.
  *
  * @param pos List node to insert the new node after
  * @param new_node Node to insert after the specified position
@@ -112,7 +115,7 @@ void list_add_first(list_t *list, listnode_t *new_node);
 void list_insert(listnode_t *pos, listnode_t *new_node);
 
 /**
- * Insert a new node before the specified list node.
+ * @brief Insert a new node before the specified list node.
  *
  * @param pos List node to insert the new node before
  * @param new_node Node to insert before the specified position
@@ -126,7 +129,7 @@ void list_insert_before(listnode_t *pos, listnode_t *new_node);
  *
  * @param cursor `type *` to use as a cursor
  * @param list `list_t *` to iterate over
- * @param member Name of the `listnode_t` member embedded within \a `cursor`
+ * @param member Name of the `listnode_t` member embedded within `cursor`
  */
 #define list_foreach(cursor, list, member)					\
 	for (typeof(cursor) __tmp = _neo_list_next(				\
@@ -143,7 +146,7 @@ void list_insert_before(listnode_t *pos, listnode_t *new_node);
  *
  * @param cursor `type *` to use as a cursor
  * @param list `list_t *` to iterate over
- * @param member Name of the `listnode_t` member embedded within \a `cursor`
+ * @param member Name of the `listnode_t` member embedded within `cursor`
  */
 #define list_foreach_reverse(cursor, list, member)				\
 	for (typeof(cursor) __tmp = _neo_list_prev(				\

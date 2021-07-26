@@ -13,6 +13,7 @@
  *
  * Changing this might require also changing the linker script because of
  * alignment requirements.
+ * @private
  */
 struct _neo_nstr_init_info {
 	nstr_t **dest;
@@ -39,20 +40,31 @@ struct _neo_nstr_init_info {
 #define nstr_raw(nstr) ((nstr)->_data)
 
 /**
- * @brief Statically define a neo string (file scope only).
+ * @brief Statically initialize a neo string (file scope only).
+ *
+ * The string will be initialized before `main` is called.
+ *
+ * @param name Name of the (already declared) `nstr_t *` to initialize
+ * @param content A `const char *` with the contents of the string
+ */
+#define NSTR_INIT(name, content)						\
+	__neo_section(.data.__neo.nstr_array)					\
+	struct _neo_nstr_init_info __neo_nstr_init_info_##name = {		\
+		.dest = &name,							\
+		.data = content,						\
+	}
+
+/**
+ * @brief Statically declare and define a neo string (file scope only).
  *
  * The string will be initialized before `main` is called.
  *
  * @param name Name of the `nstr_t *` variable to be declared
  * @param content A `const char *` with the contents of the string
  */
-#define NSTR_DEFINE(name, content)						\
-	nstr_t *name = nil;							\
-	__neo_section(.data.__neo.nstr_array)					\
-	struct _neo_nstr_init_info __neo_nstr_init_info_##name = {		\
-		.dest = &name,							\
-		.data = content,						\
-	}
+#define NSTR_DEFINE(name, content)	\
+	nstr_t *name = nil;		\
+	NSTR_INIT(name, content)
 
 /**
  * @brief Copy a regular C string to a neo string.

@@ -91,6 +91,12 @@ nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
 	__byte;								\
 })
 
+/**
+ * @brief Iterate over every byte in a buffer.
+ *
+ * @param cursor A `const u8 *` to be used as an iteration cursor
+ * @param buf `nbuf_t *` to iterate over
+ */
 #define nbuf_foreach(cursor, buf)			\
 	for (cursor = &buf->_data[0];			\
 	     cursor != &buf->_data[nlen(buf)];		\
@@ -100,8 +106,8 @@ nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
  * @brief Compare two buffers.
  *
  * If the first buffer is found to be greater than the second one, the return
- * value is greater than 0.
- * If the two buffers are equal, the return value is zero.
+ * value is greater than 0.\n
+ * If the two buffers are equal, the return value is zero.\n
  * If the first buffer is found to be less than the second one, the return
  * value is less than 0.
  *
@@ -114,6 +120,14 @@ nbuf_t *nbuf_clone(nbuf_t *buf, error *err);
  */
 int nbuf_cmp(const nbuf_t *buf1, const nbuf_t *buf2, error *err);
 
+/**
+ * @brief Determine whether two buffers are equal.
+ *
+ * @param buf1 First `nbuf_t *` to compare
+ * @param buf2 Second `nbuf_t *` to compare
+ * @param err Error pointer
+ * @returns `true` if the two buffers are found to be equal, `false` if not
+ */
 #define nbuf_eq(buf1, buf2, err) ( (bool)(nbuf_cmp(buf1, buf2, err) == 0) )
 
 /** @} */

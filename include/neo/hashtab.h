@@ -1,9 +1,5 @@
 /* See the end of this file for copyright and license terms. */
 
-/**
- * @file Hashtable API
- */
-
 #pragma once
 
 #ifdef __cplusplus
@@ -15,12 +11,14 @@ extern "C" {
 #include "neo/_types.h"
 #include "neo/list.h"
 
+/** @private */
 struct _neo_hashtab_entry {
 	listnode_t link;
 	nbuf_t *key;
 	void *val;
 };
 
+/** @private */
 struct _neo_hashtab {
 	NLEN_FIELD(_len);
 	NREF_FIELD;
@@ -119,6 +117,7 @@ void *hashtab_del(hashtab_t *table, nbuf_t *key, error *err);
  *	the iteration stops if the return value is nonzero
  * @param extra Optional pointer that is passed as an extra argument to the
  *	callback function
+ * @param err Error pointer
  * @returns The last return value of the callback, unless an error occurred
  */
 int hashtab_foreach(hashtab_t *table,

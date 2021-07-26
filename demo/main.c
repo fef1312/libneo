@@ -1,10 +1,23 @@
-/** See the end of this file for copyright and license terms. */
+/*
+ * This example program demonstrates various features of libneo.
+ * See the end of this file for copyright and license terms.
+ */
 
-#include "neo.h"
+#include <neo.h>
+#include <stdio.h>
+
+void nref_simple_demo(void);
+void nref_borrowed_demo(void);
 
 int main(int argc, char **argv)
 {
-	return 69;
+	printf("==== running nref_simple_demo ====\n");
+	nref_simple_demo();
+	printf("==== end of nref_simple_demo ====\n\n");
+
+	printf("==== running nref_borrowed_demo ====\n");
+	nref_borrowed_demo();
+	printf("==== end of nref_borrowed_demo ====\n\n");
 }
 
 /*
